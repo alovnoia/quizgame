@@ -1,0 +1,17 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <ng2-smart-table [settings]="settings" [source]="source"
+                           (deleteConfirm)="onDeleteTopicConfirm($event)"
+                           (createConfirm)="onCreateTopic($event)"
+                           (editConfirm)="onEditTopic($event)">
+
+          </ng2-smart-table>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+</div>
