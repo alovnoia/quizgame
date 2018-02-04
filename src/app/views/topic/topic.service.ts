@@ -23,6 +23,10 @@ export class TopicService {
     this.topicsUrl = globals.SERVER + globals.TOPIC;
   }
 
+  /**
+   * get topics from db
+   * @returns {Observable<Topic[]>}
+   */
   getTopics(): Observable<Topic[]> {
     //return of (this.topics);
     return this.http.get<Topic[]>(this.topicsUrl)
@@ -32,6 +36,11 @@ export class TopicService {
       );
   }
 
+  /**
+   * delete topic from db
+   * @param {string} idDelete id of topic will delete
+   * @returns {Observable<Topic>}
+   */
   deleteTopic(idDelete: string): Observable<Topic> {
     return this.http.delete<Topic>(this.topicsUrl + idDelete, this.globals.httpOptions).pipe(
       tap(_ => console.log(`deleted topic id=${idDelete}`)),
@@ -40,10 +49,18 @@ export class TopicService {
     //console.log(this.topics);
   }
 
+  /**
+   * remove 1 duplicate topic from local topic list after add
+   */
   shiftTopic(): void {
     this.topics.shift();
   }
 
+  /**
+   * add a topic to db
+   * @param {Topic} topicObj data of new topic
+   * @returns {Observable<Topic>}
+   */
   addTopic(topicObj: Topic): Observable<Topic> {
     //this.topics.unshift({id: '100', name: name, desc: desc, status: status});
     return this.http.post<Topic>(this.topicsUrl, topicObj, this.globals.httpOptions).pipe(
@@ -52,6 +69,11 @@ export class TopicService {
     );
   }
 
+  /**
+   * edit a topic on db
+   * @param {Topic} topicObj new data of modify topic
+   * @returns {Observable<any>}
+   */
   editTopic(topicObj: Topic): Observable<any> {
     console.log(topicObj);
     return this.http.put(this.topicsUrl + topicObj._id, topicObj, this.globals.httpOptions).pipe(

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import {LocationStrategy, HashLocationStrategy, NgIf} from '@angular/common';
 
 import { AppComponent } from './app.component';
 
@@ -68,6 +68,9 @@ import {AuthGuard} from './views/pages/auth.guard';
 import {LoginService} from './views/pages/login.service';
 import {HttpClientModule} from '@angular/common/http';
 import {Globals} from './app.constants';
+import {StorageServiceModule} from 'angular-webstorage-service';
+import { CommonModule } from '@angular/common';
+import {LoginComponent} from './views/pages/login.component';
 
 @NgModule({
   imports: [
@@ -76,7 +79,9 @@ import {Globals} from './app.constants';
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
-    HttpClientModule
+    HttpClientModule,
+    StorageServiceModule,
+    CommonModule
   ],
   declarations: [
     AppComponent,

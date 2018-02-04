@@ -11,6 +11,7 @@ import { StatusRenderComponent } from './status-render.component';
 })
 export class TopicComponent implements OnInit {
 
+  //setting of smart table
   settings = {
     attr: {
       class: 'table'
@@ -79,6 +80,7 @@ export class TopicComponent implements OnInit {
     }
   };
 
+  // local topics array
   topics: Topic[];
   //source for smart table
   source: LocalDataSource;
@@ -88,11 +90,15 @@ export class TopicComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('OnInit');
+    console.log('OnInit topicComponent');
     this.getTopics();
   }
 
+  /**
+   * get topic from db via service
+   */
   getTopics(): void {
+    console.log('getTopics');
     this.topicService.getTopics().subscribe( topics => {
       for (let i = topics.length - 1; i >= 0; i--) {
         this.topics.push({
@@ -101,12 +107,17 @@ export class TopicComponent implements OnInit {
           desc: topics[i].desc,
           status: topics[i].status})
       }
-      console.log(this.topics);
+      //console.log(this.topics);
       this.source = new LocalDataSource(this.topics);
     });
   }
 
+  /**
+   * delete topic from db via service
+   * @param event contant data of deleted topic
+   */
   onDeleteTopicConfirm(event) {
+    console.log('delete topic');
     if (window.confirm('Bạn có chắc muốn xóa topic này?')) {
       event.confirm.resolve();
       //this.deleteTopic(event.data.id);
@@ -117,15 +128,12 @@ export class TopicComponent implements OnInit {
       event.confirm.reject();
       console.log('Delete rejected');
     }
-    console.log('-----');
   }
 
-  shiftTopic(): void {
-    console.log('Shift topic');
-    this.topicService.shiftTopic();
-    //this.topics.shift();
-  }
-
+  /**
+   * add a topic to db via service
+   * @param event contant data of added topic
+   */
   onCreateTopic(event) {
     console.log('Create new topic');
     let obj = event.newData;
@@ -137,18 +145,21 @@ export class TopicComponent implements OnInit {
       event.confirm.resolve();
       this.topicService.addTopic(topicObj as Topic).subscribe();
       //this.source.load(this.topics);
-      this.shiftTopic();
+      this.topicService.shiftTopic();
       console.log('Create success');
       //console.log(this.topics);
     }
-    console.log('-----');
   }
 
+  /**
+   * edit a topic on db via service
+   * @param event contant data of new and old topic
+   */
   onEditTopic(event) {
+    console.log('edit topic');
     let newObj = event.newData;
     let topicObj = {_id: newObj._id, name: newObj.name.trim(), desc: newObj.desc.trim(), status: newObj.status};
     console.log('Edit topic id: ' + event.data._id);
-    console.log('-----');
     event.confirm.resolve();
     this.topicService.editTopic(topicObj).subscribe();
   }

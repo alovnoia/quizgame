@@ -1,31 +1,36 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {catchError, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 import {Globals} from '../../app.constants';
 import {of} from 'rxjs/observable/of';
+import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 
 @Injectable()
 export class LoginService {
 
-  private isUserLoggedIn: boolean;
   private username : string;
   private loginAdminUrl: string;
 
-  constructor(private http: HttpClient, private globals: Globals) {
+  constructor(private http: HttpClient, private globals: Globals, @Inject(SESSION_STORAGE) private storage: WebStorageService) {
     this.loginAdminUrl = globals.SERVER + globals.ADMIN_LOGIN;
-    this.isUserLoggedIn = false;
   }
 
   setUserLoggedIn(): void {
-    this.isUserLoggedIn = true;
+    this.storage.set(this.globals.KEY_LOGIN, true);
   }
 
   getUserLoggedIn(): boolean {
-    return this.isUserLoggedIn;
+    return this.storage.get(this.globals.KEY_LOGIN);
   }
 
+  /**
+   * check data from login form
+   * @param adminObj
+   * @returns {Observable<any>}
+   */
   login(adminObj): Observable<any> {
+    console.log('LoginService');
     return this.http.post<any>(this.loginAdminUrl, adminObj, this.globals.httpOptions).pipe(
       tap(() => console.log(`admin login`)),
       catchError(this.handleError<any>('login'))

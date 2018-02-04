@@ -6,13 +6,12 @@ import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
 
 import { PagesRoutingModule } from './pages-routing.module';
-import { HttpClientModule } from '@angular/common/http';
-import {Globals} from '../../app.constants';
-import {LoginService} from './login.service';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   imports: [
-    PagesRoutingModule
+    PagesRoutingModule,
+    CommonModule
   ],
   declarations: [
     P404Component,
