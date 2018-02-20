@@ -14,8 +14,11 @@ export class QuestionComponent implements OnInit {
   LOG_TAG: string = 'QuestionComponent';
   questions: Question[];
   topics: Topic[];
+  // hide search view
   isHidden: boolean;
+  // hide search content
   isVisuallyHidden: boolean;
+  // show search content
   isShow: boolean;
 
   constructor(private questionService: QuestionService, private topicService: TopicService) {
@@ -28,7 +31,7 @@ export class QuestionComponent implements OnInit {
   ngOnInit() {
     console.log(this.LOG_TAG + ' OnInit');
     this.getTopics();
-    console.log(this.topics);
+    //console.log(this.topics);
     this.getQuestions();
   }
 
@@ -48,6 +51,10 @@ export class QuestionComponent implements OnInit {
     });
   }
 
+  /**
+   * click event of search area
+   * @param event
+   */
   onClickAdvanceSearch(event) {
     console.log(this.LOG_TAG + ' onClickAdvanceSearch');
     if (this.isHidden) {
@@ -60,7 +67,6 @@ export class QuestionComponent implements OnInit {
     } else {
       event.target.innerText = 'Mở rộng';
       this.isShow = false;
-      //this.isVisuallyHidden = true;
       this.isHidden = true;
       setTimeout( () =>  {
         this.isVisuallyHidden = true;
@@ -69,7 +75,7 @@ export class QuestionComponent implements OnInit {
   }
 
   getQuestions(): void {
-    this.questionService.getQuestions().subscribe(questions => this.questions = questions);
+    //this.questionService.getQuestions().subscribe(questions => this.questions = questions);
     //console.log(this.questions);
   }
 

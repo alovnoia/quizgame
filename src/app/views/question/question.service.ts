@@ -151,8 +151,8 @@ export class QuestionService {
 
   constructor() { }
 
-  getQuestions(): Observable<Question[]> {
+/*  getQuestions(): Observable<Question[]> {
     return of (this.questions);
-  }
+  }*/
 
 }
