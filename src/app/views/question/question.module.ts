@@ -5,14 +5,18 @@ import { QuestionComponent } from './question.component';
 import { QuestionRoutingModule } from './question-routing.module';
 import { QuestionService } from './question.service';
 import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {Globals} from '../../app.constants';
+import {TopicService} from '../topic/topic.service';
 
 @NgModule({
   imports: [
     CommonModule,
     QuestionRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   declarations: [QuestionComponent],
-  providers: [ QuestionService ]
+  providers: [ QuestionService, TopicService, Globals ]
 })
 export class QuestionModule { }

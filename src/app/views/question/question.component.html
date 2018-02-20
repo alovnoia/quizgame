@@ -3,21 +3,68 @@
     <div class="card">
       <div class="card-header">
         Chỉ hiển thị 10 kết quả gần với tìm kiếm nhất
+        <a href="javascript:;" (click)="onClickAdvanceSearch($event)">Thu gọn</a>
       </div>
-      <div class="card-body">
+      <div class="card-body" [ngClass]="{'hide-card': isHidden, 'visually-hidden': isVisuallyHidden, 'show-card': isShow}">
         <form action="" method="post" class="form-horizontal">
           <div class="form-group row">
-            <div class="col-md-12">
+            <!--<div class="col-md-12">
               <div class="input-group">
                 <input type="email" id="input2-group2" name="input2-group2" class="form-control" placeholder="Question content">
                 <span class="input-group-btn">
                   <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
                 </span>
               </div>
+            </div>-->
+            <div class="form-group col-sm-4">
+              <!--<label for="ccyear">Độ khó</label>-->
+              <select class="form-control" id="level">
+                <option>Dễ</option>
+                <option>Trung bình</option>
+                <option>Khó</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-4">
+              <!--<label for="ccyear">Chủ đề</label>-->
+              <select class="form-control" id="topic">
+                <option *ngFor="let topic of topics">{{topic.name}}</option>
+              </select>
+            </div>
+            <div class="form-group col-sm-4">
+              <!--<label for="ccyear">Loại câu hỏi</label>-->
+              <select class="form-control" id="type">
+                <option>Text</option>
+                <option>Ảnh</option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="question-id">Id câu hỏi</label>
+                <input type="text" class="form-control" id="question-id" placeholder="Nhập id câu hỏi">
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="answer">Đáp án</label>
+                <input type="text" class="form-control" id="answer" placeholder="Nhập đáp án">
+              </div>
+            </div>
+            <div class="col-sm-6"></div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="content">Nội dung</label>
+                <textarea id="content" name="textarea-input" rows="4" class="form-control" placeholder="Nội dung câu hỏi"></textarea>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <button type="submit" class="btn btn-md btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
             </div>
           </div>
         </form>
       </div>
+      <!--<div class="card-footer">
+        <button type="submit" class="btn btn-md btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
+      </div>-->
     </div>
   </div>
 </div>

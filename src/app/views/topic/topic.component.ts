@@ -79,7 +79,7 @@ export class TopicComponent implements OnInit {
       perPage: 10,
     }
   };
-
+  LOG_TAG: string = 'TopicComponent';
   // local topics array
   topics: Topic[];
   //source for smart table
@@ -98,7 +98,7 @@ export class TopicComponent implements OnInit {
    * get topic from db via service
    */
   getTopics(): void {
-    console.log('getTopics');
+    console.log(this.LOG_TAG + ' getTopics');
     this.topicService.getTopics().subscribe( topics => {
       for (let i = topics.length - 1; i >= 0; i--) {
         this.topics.push({
@@ -117,7 +117,7 @@ export class TopicComponent implements OnInit {
    * @param event contant data of deleted topic
    */
   onDeleteTopicConfirm(event) {
-    console.log('delete topic');
+    console.log(this.LOG_TAG + ' delete topic');
     if (window.confirm('Bạn có chắc muốn xóa topic này?')) {
       event.confirm.resolve();
       //this.deleteTopic(event.data.id);
@@ -135,19 +135,19 @@ export class TopicComponent implements OnInit {
    * @param event contant data of added topic
    */
   onCreateTopic(event) {
-    console.log('Create new topic');
+    console.log(this.LOG_TAG + ' Create new topic');
     let obj = event.newData;
     let topicObj = {name: obj.name.trim(), desc: obj.desc.trim(), status: obj.status !== '' ? obj.status : false};
     if (obj.name.trim() === '' || obj.desc.trim() === '') {
       window.alert('Hãy nhập đủ thông tin!');
-      console.log('Create failed');
+      console.log(this.LOG_TAG + ' Create failed');
     } else {
       event.confirm.resolve();
       this.topicService.addTopic(topicObj as Topic).subscribe();
       //this.source.load(this.topics);
       this.topicService.shiftTopic();
-      console.log('Create success');
-      //console.log(this.topics);
+      console.log(this.LOG_TAG + ' Create success');
+      //console.log(this.LOG_TAG + ' ' + this.topics);
     }
   }
 
@@ -156,10 +156,10 @@ export class TopicComponent implements OnInit {
    * @param event contant data of new and old topic
    */
   onEditTopic(event) {
-    console.log('edit topic');
+    console.log(this.LOG_TAG + ' edit topic');
     let newObj = event.newData;
     let topicObj = {_id: newObj._id, name: newObj.name.trim(), desc: newObj.desc.trim(), status: newObj.status};
-    console.log('Edit topic id: ' + event.data._id);
+    console.log(this.LOG_TAG + ' Edit topic id: ' + event.data._id);
     event.confirm.resolve();
     this.topicService.editTopic(topicObj).subscribe();
   }

@@ -1,0 +1,54 @@
+.card-header a,
+.card-body .btn {
+  float: right;
+}
+
+.card-body {
+  padding-bottom: 0rem;
+}
+
+.visually-hidden {
+  display: none;
+}
+
+.show-card {
+  -webkit-animation: appear 0.3s;
+  -webkit-animation-fill-mode: forwards;
+  animation: appear 0.3s;
+  animation-fill-mode: forwards;
+}
+
+.hide-card {
+  -webkit-animation: disappear 0.3s;
+  -webkit-animation-fill-mode: forwards;
+  animation: disappear 0.3s;
+  animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes appear{
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes appear{
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes disappear{
+  100% {
+    -webkit-transform: translateY(-5%);
+    transform: translateY(-5%);
+  }
+}
+
+@keyframes disappear{
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(-5%);
+    transform: translateY(-5%);
+  }
+}
+

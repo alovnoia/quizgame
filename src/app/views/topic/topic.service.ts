@@ -10,6 +10,7 @@ import {catchError, tap} from 'rxjs/operators';
 export class TopicService {
 
   private topicsUrl: string;
+  LOG_TAG: string = 'TopicService';
 
   topics = [
     { id: '1', name: 'Du lịch', desc: 'Các từ vựng về du lịch', status: true },
@@ -31,7 +32,7 @@ export class TopicService {
     //return of (this.topics);
     return this.http.get<Topic[]>(this.topicsUrl)
       .pipe(
-        tap(topics => console.log(`fetched topics`)),
+        tap(topics => console.log(this.LOG_TAG + ` fetched topics`)),
         catchError(this.handleError('getTopics', []))
       );
   }
@@ -43,7 +44,7 @@ export class TopicService {
    */
   deleteTopic(idDelete: string): Observable<Topic> {
     return this.http.delete<Topic>(this.topicsUrl + idDelete, this.globals.httpOptions).pipe(
-      tap(_ => console.log(`deleted topic id=${idDelete}`)),
+      tap(_ => console.log(this.LOG_TAG + ` deleted topic id=${idDelete}`)),
       catchError(this.handleError<Topic>('deleteTopic'))
     );
     //console.log(this.topics);
@@ -64,7 +65,7 @@ export class TopicService {
   addTopic(topicObj: Topic): Observable<Topic> {
     //this.topics.unshift({id: '100', name: name, desc: desc, status: status});
     return this.http.post<Topic>(this.topicsUrl, topicObj, this.globals.httpOptions).pipe(
-      tap(() => console.log(`added a topic`)),
+      tap(() => console.log(this.LOG_TAG + ` added a topic`)),
       catchError(this.handleError<Topic>('addTopic'))
     );
   }
@@ -77,7 +78,7 @@ export class TopicService {
   editTopic(topicObj: Topic): Observable<any> {
     console.log(topicObj);
     return this.http.put(this.topicsUrl + topicObj._id, topicObj, this.globals.httpOptions).pipe(
-      tap(_ => console.log(`updated topic id=${topicObj._id}`)),
+      tap(_ => console.log(this.LOG_TAG + ` updated topic id=${topicObj._id}`)),
       catchError(this.handleError<any>('updateTopic'))
     );
   }
