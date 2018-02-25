@@ -32,7 +32,6 @@ export class QuestionComponent implements OnInit {
     console.log(this.LOG_TAG + ' OnInit');
     this.getTopics();
     //console.log(this.topics);
-    this.getQuestions();
   }
 
   /**
@@ -42,11 +41,7 @@ export class QuestionComponent implements OnInit {
     console.log(this.LOG_TAG + ' getTopics');
     this.topicService.getTopics().subscribe( topics => {
       for (let i = topics.length - 1; i >= 0; i--) {
-        this.topics.push({
-          _id: topics[i]._id,
-          name: topics[i].name,
-          desc: topics[i].desc,
-          status: topics[i].status})
+        this.topics.push(new Topic(topics[i]._id, topics[i].name, topics[i].desc, topics[i].status));
       }
     });
   }
@@ -55,7 +50,7 @@ export class QuestionComponent implements OnInit {
    * click event of search area
    * @param event
    */
-  onClickAdvanceSearch(event) {
+  onClickAdvanceSearch(event): void {
     console.log(this.LOG_TAG + ' onClickAdvanceSearch');
     if (this.isHidden) {
       event.target.innerText = 'Thu gọn';
@@ -74,9 +69,44 @@ export class QuestionComponent implements OnInit {
     }
   }
 
-  getQuestions(): void {
-    //this.questionService.getQuestions().subscribe(questions => this.questions = questions);
-    //console.log(this.questions);
+  onSubmitSearch(e): void {
+    e.preventDefault();
+    //console.log(event.target[4].value);
+    let inputLevel = e.target[0].value;
+    let inputTopic = e.target[1].value;
+    let inputType = e.target[2].value;
+    let inputQuestionId = e.target[3].value.trim();
+    let inputAnswer = e.target[4].value.trim();
+    let inputContent = e.target[5].value.trim();
+    let checkFormValid = this.checkFormSearchValid(inputLevel, inputTopic, inputType, inputQuestionId, inputAnswer, inputContent);
+
+    let queryObj = {
+      "level": inputLevel,
+      "topic": inputTopic,
+      "type": inputType,
+      "id": inputQuestionId,
+      "answer": inputAnswer,
+      "content": inputContent,
+    };
+
+    if (checkFormValid) {
+      this.questionService.getQuestions(queryObj).subscribe(question => {
+        this.questions = question;
+      });
+    } else {
+      alert('Nhập thông tin để search');
+    }
+  }
+
+  checkFormSearchValid(inputLevel, inputTopic, inputType, inputQuestionId, inputAnswer, inputContent): boolean {
+    let inputIsNotNull = false;
+    for (let i = 0; i <= arguments.length; i++) {
+      if (arguments[i] && arguments[i] !== 'none') {
+        inputIsNotNull = true;
+        break;
+      }
+    }
+    return inputIsNotNull;
   }
 
 }

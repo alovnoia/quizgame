@@ -32,7 +32,7 @@ export class TopicService {
     //return of (this.topics);
     return this.http.get<Topic[]>(this.topicsUrl)
       .pipe(
-        tap(topics => console.log(this.LOG_TAG + ` fetched topics`)),
+        tap(topics => console.log(this.LOG_TAG + ` fetched topics `, topics)),
         catchError(this.handleError('getTopics', []))
       );
   }
@@ -43,9 +43,10 @@ export class TopicService {
    * @returns {Observable<Topic>}
    */
   deleteTopic(idDelete: string): Observable<Topic> {
-    return this.http.delete<Topic>(this.topicsUrl + idDelete, this.globals.httpOptions).pipe(
-      tap(_ => console.log(this.LOG_TAG + ` deleted topic id=${idDelete}`)),
-      catchError(this.handleError<Topic>('deleteTopic'))
+    return this.http.delete<Topic>(this.topicsUrl + idDelete, this.globals.httpOptions)
+      .pipe(
+        tap(_=> console.log(this.LOG_TAG + ` deleted topic id=${idDelete}`)),
+        catchError(this.handleError<Topic>('deleteTopic'))
     );
     //console.log(this.topics);
   }
@@ -64,9 +65,10 @@ export class TopicService {
    */
   addTopic(topicObj: Topic): Observable<Topic> {
     //this.topics.unshift({id: '100', name: name, desc: desc, status: status});
-    return this.http.post<Topic>(this.topicsUrl, topicObj, this.globals.httpOptions).pipe(
-      tap(() => console.log(this.LOG_TAG + ` added a topic`)),
-      catchError(this.handleError<Topic>('addTopic'))
+    return this.http.post<Topic>(this.topicsUrl, topicObj, this.globals.httpOptions)
+      .pipe(
+        tap(() => console.log(this.LOG_TAG + ` added a topic`)),
+        catchError(this.handleError<Topic>('addTopic'))
     );
   }
 
@@ -76,10 +78,10 @@ export class TopicService {
    * @returns {Observable<any>}
    */
   editTopic(topicObj: Topic): Observable<any> {
-    console.log(topicObj);
-    return this.http.put(this.topicsUrl + topicObj._id, topicObj, this.globals.httpOptions).pipe(
-      tap(_ => console.log(this.LOG_TAG + ` updated topic id=${topicObj._id}`)),
-      catchError(this.handleError<any>('updateTopic'))
+    return this.http.put(this.topicsUrl + topicObj._id, topicObj, this.globals.httpOptions)
+      .pipe(
+        tap(_ => console.log(this.LOG_TAG + ` updated topic id=${topicObj._id}`)),
+        catchError(this.handleError<any>('updateTopic'))
     );
   }
 

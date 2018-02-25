@@ -16,4 +16,5 @@ export class Globals {
   public SERVER = 'http://localhost:3000/';
   public ADMIN_LOGIN = 'admin/';
   public TOPIC = 'topics/';
+  public QUESTION = 'questions/filter';
 }

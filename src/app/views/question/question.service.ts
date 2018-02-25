@@ -2,10 +2,15 @@ import { Injectable } from '@angular/core';
 import { Question } from './question-model';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import {HttpClient} from '@angular/common/http';
+import {Globals} from '../../app.constants';
+import {catchError, tap} from 'rxjs/operators';
 
 @Injectable()
 export class QuestionService {
 
+  private questionUrl: string;
+  LOG_TAG: string = 'questionService';
   questions = [
     {
       id: '1',
@@ -149,10 +154,35 @@ export class QuestionService {
     },
   ]
 
-  constructor() { }
+  constructor(private http: HttpClient, private globals: Globals) {
+    this.questionUrl = globals.SERVER + globals.QUESTION;
+  }
 
-/*  getQuestions(): Observable<Question[]> {
-    return of (this.questions);
-  }*/
+  getQuestions(queryObj: Object): Observable<Question[]> {
+    return this.http.post<Question[]>(this.questionUrl, queryObj, this.globals.httpOptions)
+      .pipe(
+        tap(questions => console.log(this.LOG_TAG + ` fetched questions `, questions)),
+        catchError(this.handleError('getQuestions', []))
+      );
+  }
 
+  /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      console.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
 }

@@ -101,11 +101,7 @@ export class TopicComponent implements OnInit {
     console.log(this.LOG_TAG + ' getTopics');
     this.topicService.getTopics().subscribe( topics => {
       for (let i = topics.length - 1; i >= 0; i--) {
-        this.topics.push({
-          _id: topics[i]._id,
-          name: topics[i].name,
-          desc: topics[i].desc,
-          status: topics[i].status})
+        this.topics.push(new Topic(topics[i]._id, topics[i].name, topics[i].desc, topics[i].status));
       }
       //console.log(this.topics);
       this.source = new LocalDataSource(this.topics);
@@ -143,9 +139,12 @@ export class TopicComponent implements OnInit {
       console.log(this.LOG_TAG + ' Create failed');
     } else {
       event.confirm.resolve();
-      this.topicService.addTopic(topicObj as Topic).subscribe();
+      this.topicService.addTopic(topicObj as Topic).subscribe(newTopic => {
+        this.topics[0]._id = newTopic._id;
+        this.source = new LocalDataSource(this.topics);
+      });
       //this.source.load(this.topics);
-      this.topicService.shiftTopic();
+      //this.topicService.shiftTopic();
       console.log(this.LOG_TAG + ' Create success');
       //console.log(this.LOG_TAG + ' ' + this.topics);
     }
@@ -158,8 +157,8 @@ export class TopicComponent implements OnInit {
   onEditTopic(event) {
     console.log(this.LOG_TAG + ' edit topic');
     let newObj = event.newData;
-    let topicObj = {_id: newObj._id, name: newObj.name.trim(), desc: newObj.desc.trim(), status: newObj.status};
-    console.log(this.LOG_TAG + ' Edit topic id: ' + event.data._id);
+    let topicObj = new Topic(newObj._id, newObj.name.trim(), newObj.desc.trim(), newObj.status !== '' ? newObj.status : false);
+    //console.log(this.LOG_TAG + ' Edit topic id: ' + event.data._id);
     event.confirm.resolve();
     this.topicService.editTopic(topicObj).subscribe();
   }
