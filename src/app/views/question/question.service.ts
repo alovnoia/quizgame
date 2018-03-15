@@ -5,6 +5,7 @@ import { of } from 'rxjs/observable/of';
 import {HttpClient} from '@angular/common/http';
 import {Globals} from '../../app.constants';
 import {catchError, tap} from 'rxjs/operators';
+import {Topic} from '../topic/topic-model';
 
 @Injectable()
 export class QuestionService {
@@ -158,11 +159,70 @@ export class QuestionService {
     this.questionUrl = globals.SERVER + globals.QUESTION;
   }
 
+  /**
+   * get question from db base on search input
+   * @param {Object} queryObj
+   * @returns {Observable<Question[]>}
+   */
   getQuestions(queryObj: Object): Observable<Question[]> {
-    return this.http.post<Question[]>(this.questionUrl, queryObj, this.globals.httpOptions)
+    return this.http.post<Question[]>(this.questionUrl + 'filter', queryObj, this.globals.httpOptions)
       .pipe(
         tap(questions => console.log(this.LOG_TAG + ` fetched questions `, questions)),
         catchError(this.handleError('getQuestions', []))
+      );
+  }
+
+  /**
+   * add question to db
+   * @param {Question} questionObj
+   * @returns {Observable<Question>}
+   */
+  addQuestion(questionObj: Question): Observable<Question> {
+    //this.topics.unshift({id: '100', name: name, desc: desc, status: status});
+    return this.http.post<Question>(this.questionUrl, questionObj, this.globals.httpOptions)
+      .pipe(
+        tap(() => console.log(this.LOG_TAG + ` added a question`)),
+        catchError(this.handleError<Question>('addQuestion'))
+      );
+  }
+
+  /**
+   * check question code on db
+   * @param {string} code
+   * @returns {Observable<any>}
+   */
+  checkCode(code: string): Observable<any> {
+    return this.http.post<any>(this.questionUrl + 'check-code', {code: code}, this.globals.httpOptions)
+      .pipe(
+        tap(() => console.log(this.LOG_TAG + ` check question code`)),
+        catchError(this.handleError<any>('checkCode'))
+      );
+  }
+
+  /**
+   * remove question from db
+   * @param {string} idDelete
+   * @returns {Observable<Question>}
+   */
+  deleteQuestion(idDelete: string): Observable<Question> {
+    return this.http.delete<Question>(this.questionUrl + idDelete, this.globals.httpOptions)
+      .pipe(
+        tap(q => console.log(this.LOG_TAG + ` deleted question id=${idDelete}`)),
+        catchError(this.handleError<Question>('deleteQuestion'))
+      );
+    //console.log(this.topics);
+  }
+
+  /**
+   * edti question on db
+   * @param {Question} questionObj
+   * @returns {Observable<any>}
+   */
+  editQuestion(questionObj: Question): Observable<any> {
+    return this.http.put(this.questionUrl + questionObj._id, questionObj, this.globals.httpOptions)
+      .pipe(
+        tap(q => console.log(this.LOG_TAG + ` updated question id=${questionObj._id}`)),
+        catchError(this.handleError<any>('updateQuestion'))
       );
   }
 

@@ -1,8 +1,14 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {Question} from './question-model';
 import {QuestionService} from './question.service';
 import {Topic} from '../topic/topic-model';
 import {TopicService} from '../topic/topic.service';
+import {LocalDataSource} from 'ng2-smart-table';
+import {AnswersRenderComponent} from './renderTableRow/answers-render.component';
+import {TopicsRenderComponent} from './renderTableRow/topics-render.component';
+import {Globals} from '../../app.constants';
+import {CreateModalComponent} from './action/create-modal/create-modal.component';
+import {EditModalComponent} from './action/edit-modal/edit-modal.component';
 
 @Component({
   selector: 'app-question',
@@ -12,6 +18,70 @@ import {TopicService} from '../topic/topic.service';
 export class QuestionComponent implements OnInit {
 
   LOG_TAG: string = 'QuestionComponent';
+  settings = {
+    attr: {
+      class: 'table'
+    },
+    mode: 'external', // inline|external|click-to-edit
+    selectMode: 'single', // single|multi
+    actions: {
+      columnTitle: '',
+      add: true,
+      edit: true,
+      delete: true,
+      custom: [],
+      position: 'left', // left|right
+    },
+    columns: {
+      code: {
+        title: 'Mã',
+        type: 'html'
+      },
+      content: {
+        title: 'Nội dung',
+        type: 'html'
+      },
+      answers: {
+        title: 'Đáp án',
+        type: 'custom',
+        renderComponent: AnswersRenderComponent
+      },
+      level: {
+        title: 'Độ khó',
+        type: 'html'
+      },
+      topic: {
+        title: 'Chủ đề',
+        type: 'custom',
+        renderComponent: TopicsRenderComponent
+      }
+    },
+    add: {
+      inputClass: '',
+      addButtonContent: '<i class="icon-plus btn btn-success btn-sm"> Thêm</i>',
+      createButtonContent: 'Save',
+      cancelButtonContent: 'Cancel',
+      confirmCreate: false,
+    },
+    edit: {
+      inputClass: '',
+      editButtonContent: '<i class="icon-pencil btn btn-primary btn-sm"></i>',
+      saveButtonContent: 'Update',
+      cancelButtonContent: 'Cancel',
+      confirmSave: false,
+    },
+    delete: {
+      deleteButtonContent: '<i class="icon-trash btn btn-danger btn-sm"></i>',
+      confirmDelete: true,
+    },
+    noDataMessage: 'Dữ liệu rỗng',
+    pager: {
+      display: true,
+      perPage: 10,
+    }
+  };
+  //source for smart table
+  source: LocalDataSource;
   questions: Question[];
   topics: Topic[];
   // hide search view
@@ -20,12 +90,35 @@ export class QuestionComponent implements OnInit {
   isVisuallyHidden: boolean;
   // show search content
   isShow: boolean;
+  photo: object;
+  imageName: string;
+  // reference to CreateModalComponent to use child resource
+  @ViewChild(CreateModalComponent) createModalCmp: CreateModalComponent;
+  // reference to EditModalComponent to use child resource
+  @ViewChild(EditModalComponent) editModalCmp: EditModalComponent;
+  @ViewChild('createModal') createModal: any;
+  @ViewChild('inputLevel') inputLevel: ElementRef;
+  @ViewChild('inputTopic') inputTopic: ElementRef;
+  @ViewChild('inputContent') inputContent: ElementRef;
+  @ViewChild('inputAnswer1') inputAnswer1: ElementRef;
+  @ViewChild('inputAnswer2') inputAnswer2: ElementRef;
+  @ViewChild('inputAnswer3') inputAnswer3: ElementRef;
+  @ViewChild('inputAnswer4') inputAnswer4: ElementRef;
+  @ViewChild('inputImage') inputImage: ElementRef;
+  @ViewChild('displayImage') displayImage: ElementRef;
+  @ViewChild('imageContainer') imageContainer: ElementRef;
 
-  constructor(private questionService: QuestionService, private topicService: TopicService) {
+  constructor(private questionService: QuestionService, private topicService: TopicService, private globals: Globals) {
     this.topics = [];
+    this.source = new LocalDataSource(this.questions);
     this.isHidden = false;
     this.isVisuallyHidden = false;
     this.isShow = true;
+    this.imageName = '';
+    this.photo = {
+      default: this.globals.PHOTO_DIR + this.globals.PHOTO_DEFAULT,
+      added: ''
+    }
   }
 
   ngOnInit() {
@@ -70,21 +163,22 @@ export class QuestionComponent implements OnInit {
   }
 
   onSubmitSearch(e): void {
+    console.log(this.LOG_TAG + ' onSubmitSearch');
     e.preventDefault();
     //console.log(event.target[4].value);
     let inputLevel = e.target[0].value;
     let inputTopic = e.target[1].value;
     let inputType = e.target[2].value;
-    let inputQuestionId = e.target[3].value.trim();
+    let inputCode = e.target[3].value.trim();
     let inputAnswer = e.target[4].value.trim();
     let inputContent = e.target[5].value.trim();
-    let checkFormValid = this.checkFormSearchValid(inputLevel, inputTopic, inputType, inputQuestionId, inputAnswer, inputContent);
+    let checkFormValid = this.checkFormSearchValid(inputLevel, inputTopic, inputType, inputCode, inputAnswer, inputContent);
 
     let queryObj = {
       "level": inputLevel,
       "topic": inputTopic,
       "type": inputType,
-      "id": inputQuestionId,
+      "code": inputCode,
       "answer": inputAnswer,
       "content": inputContent,
     };
@@ -92,6 +186,7 @@ export class QuestionComponent implements OnInit {
     if (checkFormValid) {
       this.questionService.getQuestions(queryObj).subscribe(question => {
         this.questions = question;
+        this.source.load(this.questions);
       });
     } else {
       alert('Nhập thông tin để search');
@@ -107,6 +202,34 @@ export class QuestionComponent implements OnInit {
       }
     }
     return inputIsNotNull;
+  }
+
+  onCreateQuestion(e): void {
+    console.log(this.LOG_TAG + ' onCreateQuestion');
+    this.createModalCmp.onOpenModal(e);
+  }
+
+  updateTable(e: any): void {
+    //console.log(e);
+    this.questions = [e];
+    this.source.load(this.questions);
+  }
+
+  onDeleteQuestion(event): void {
+    console.log(this.LOG_TAG + ' onDeleteQuestion');
+    //console.log(event);
+    if (window.confirm('Bạn có chắc muốn xóa câu hỏi này?')) {
+      this.questionService.deleteQuestion(event.data._id).subscribe();
+      this.questions.splice(event.index, 1);
+      this.source.load(this.questions);
+    } else {
+
+    }
+  }
+
+  onEditQuestion(e): void {
+    console.log(this.LOG_TAG + ' onEditQuestion');
+    this.editModalCmp.onOpenModal(e);
   }
 
 }

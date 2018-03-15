@@ -38,6 +38,19 @@ export class TopicService {
   }
 
   /**
+   * get a topic by its id
+   * @param topicId
+   * @returns {Observable<any>}
+   */
+  getTopicById(topicId): Observable<any> {
+    return this.http.get<any>(this.topicsUrl + topicId, this.globals.httpOptions)
+      .pipe(
+        tap(topic => console.log(this.LOG_TAG + `get a topic`)),
+        catchError(this.handleError('getTopics', []))
+    );
+  }
+
+  /**
    * delete topic from db
    * @param {string} idDelete id of topic will delete
    * @returns {Observable<Topic>}
@@ -80,7 +93,7 @@ export class TopicService {
   editTopic(topicObj: Topic): Observable<any> {
     return this.http.put(this.topicsUrl + topicObj._id, topicObj, this.globals.httpOptions)
       .pipe(
-        tap(_ => console.log(this.LOG_TAG + ` updated topic id=${topicObj._id}`)),
+        tap(q => console.log(this.LOG_TAG + ` updated topic id=${topicObj._id}`)),
         catchError(this.handleError<any>('updateTopic'))
     );
   }

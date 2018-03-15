@@ -1,0 +1,184 @@
+<div bsModal #createModal="bs-modal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Thêm câu hỏi</h4>
+        <button type="button" class="close" (click)="createModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #createForm="ngForm" class="form-horizontal" (submit)="onSubmitCreate($event, createForm)">
+        <div class="modal-body modal-style">
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="code">Mã <span class="required-feild">*</span></label>
+                <input #inputCode type="text" (focusout)="checkCode($event)"
+                       [(ngModel)]="inputCodeStr"
+                       class="form-control" id="code" name="code"
+                       placeholder="Nhập mã" required minlength="3" maxlength="15" #code="ngModel">
+                <div *ngIf="code.errors && (code.dirty || code.touched)" class="alert alert-danger">
+                  <div [hidden]="!code.errors.required">
+                    Mã câu hỏi không được bỏ trống!
+                  </div>
+                  <div [hidden]="!code.errors.minlength">
+                    Nhập ít nhất 3 ký tự!
+                  </div>
+                  <div [hidden]="!code.errors.maxlength">
+                    Nhập tối đa 15 ký tự
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="level">Độ khó <span class="required-feild">*</span></label>
+                <select #inputLevel class="form-control" ngModel id="level" name="level" required #level="ngModel">
+                  <option value="easy">Dễ</option>
+                  <option value="medium">Trung bình</option>
+                  <option value="hard">Khó</option>
+                </select>
+                <div *ngIf="level.errors && level.touched" class="alert alert-danger">
+                  <div [hidden]="!level.errors.required">
+                    Độ khó không được bỏ trống!
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="topic">Chủ đề <span class="required-feild">*</span></label>
+                <select #inputTopic class="form-control" [compareWith]="compareTopic" name="topic" multiple [(ngModel)]="selectedTopics" required #topic="ngModel">
+                  <option *ngFor="let topic of topics" [ngValue]="topic">
+                    {{topic.name}}
+                  </option>
+                </select>
+                <div *ngIf="topic.errors && topic.touched" class="alert alert-danger">
+                  <div [hidden]="!topic.errors.required">
+                    Chủ đề không được bỏ trống!
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 preview-container">
+              <img id="delete-button" src="assets/img/delete_icon.png" class="delete-btn" (click)="onDeleteImage($event)">
+              <div #imageContainer class="col-sm-12 preview" (click)="onSelectImage($event)">
+                <img #displayImage id="add-image" src="assets/img/myImage/default.png" class="img-thumbnail">
+                <input #inputImage type="file" accept="image/*" (change)="selectImageListener($event)" hidden>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="content">Nội dung <span class="required-feild">*</span></label>
+                <textarea #inputContent id="content"
+                          name="content" rows="4" class="form-control"
+                          ngModel placeholder="Nội dung câu hỏi" required #content="ngModel"
+                          minlength="10" maxlength="150">
+
+                </textarea>
+                <div *ngIf="content.errors && (content.dirty || content.touched)" class="alert alert-danger">
+                  <div [hidden]="!content.errors.required">
+                    Nội dung câu hỏi không được bỏ trống!
+                  </div>
+                  <div [hidden]="!content.errors.minlength">
+                    Nhập ít nhất 10 ký tự!
+                  </div>
+                  <div [hidden]="!content.errors.maxlength">
+                    Nhập tối đa 150 ký tự
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-8">
+              <div class="form-group">
+                <label for="answer">Đáp án <span class="required-feild">*</span></label>
+                <div class="row">
+                  <div class="col-sm-10">
+                    <input #inputAnswer1 type="text" class="form-control"
+                           id="answer" name="answer0" ngModel placeholder="Nhập đáp án" required
+                           maxlength="20" #answer1="ngModel">
+                    <div *ngIf="answer1.errors && (answer1.dirty || answer1.touched)" class="alert alert-danger">
+                      <div [hidden]="!answer1.errors.required">
+                        Đáp án trên không được bỏ trống!
+                      </div>
+                      <div [hidden]="!answer1.errors.maxlength">
+                        Nhập tối đa 20 ký tự
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <input type="radio" id="radio0" name="correct" [value]="0" [(ngModel)]="radioOption">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-10">
+                    <input #inputAnswer2 type="text" class="form-control" id="answer"
+                           name="answer1" ngModel placeholder="Nhập đáp án" required
+                           maxlength="20" #answer2="ngModel">
+                    <div *ngIf="answer2.errors && (answer2.dirty || answer2.touched)" class="alert alert-danger">
+                      <div [hidden]="!answer2.errors.required">
+                        Đáp án trên không được bỏ trống!
+                      </div>
+                      <div [hidden]="!answer2.errors.maxlength">
+                        Nhập tối đa 20 ký tự
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <input type="radio" id="radio1" name="correct" [value]="1" [(ngModel)]="radioOption">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-10">
+                    <input #inputAnswer3 type="text" class="form-control" id="answer"
+                           name="answer2" ngModel placeholder="Nhập đáp án" required
+                           maxlength="20" #answer3="ngModel">
+                    <div *ngIf="answer3.errors && (answer3.dirty || answer3.touched)" class="alert alert-danger">
+                      <div [hidden]="!answer3.errors.required">
+                        Đáp án trên không được bỏ trống!
+                      </div>
+                      <div [hidden]="!answer3.errors.maxlength">
+                        Nhập tối đa 20 ký tự
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <input type="radio" id="radio2" name="correct" [value]="2" [(ngModel)]="radioOption">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-sm-10">
+                    <input #inputAnswer4 type="text" class="form-control" id="answer"
+                           name="answer3" ngModel placeholder="Nhập đáp án" required
+                           maxlength="20" #answer4="ngModel">
+                    <div *ngIf="answer4.errors && (answer4.dirty || answer4.touched)" class="alert alert-danger">
+                      <div [hidden]="!answer4.errors.required">
+                        Đáp án trên không được bỏ trống!
+                      </div>
+                      <div [hidden]="!answer4.errors.maxlength">
+                        Nhập tối đa 20 ký tự
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <input type="radio" id="radio3" name="correct" [value]="3" [(ngModel)]="radioOption">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="createModal.hide()">Đóng</button>
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="code.errors || level.errors || topic.errors || content.errors ||
+                              answer1.errors || answer2.errors || answer3.errors || answer4.errors">
+            Thêm mới
+          </button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

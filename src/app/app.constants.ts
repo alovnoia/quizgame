@@ -16,5 +16,9 @@ export class Globals {
   public SERVER = 'http://localhost:3000/';
   public ADMIN_LOGIN = 'admin/';
   public TOPIC = 'topics/';
-  public QUESTION = 'questions/filter';
+  public QUESTION = 'questions/';
+
+  //photo path
+  public PHOTO_DIR = 'assets/img/myImage/';
+  public PHOTO_DEFAULT = 'default.png';
 }
