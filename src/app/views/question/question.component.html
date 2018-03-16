@@ -3,23 +3,16 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
+          Thông tin tìm kiếm
           <a href="javascript:;" (click)="onClickAdvanceSearch($event)">Thu gọn</a>
         </div>
         <div class="card-body" [ngClass]="{'hide-card': isHidden, 'visually-hidden': isVisuallyHidden, 'show-card': isShow}">
-          <form #searchForm="ngForm" class="form-horizontal" (submit)="onSubmitSearch($event)">
+          <form #searchForm="ngForm" class="form-horizontal" (submit)="onSubmitSearch($event, searchForm)">
             <div class="form-group row">
-              <!--<div class="col-md-12">
-                <div class="input-group">
-                  <input type="email" id="input2-group2" name="input2-group2" class="form-control" placeholder="Question content">
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
-                  </span>
-                </div>
-              </div>-->
               <div class="form-group col-sm-4">
                 <label for="level">Độ khó</label>
-                <select class="form-control" id="level" name="level">
-                  <option value="none">--</option>
+                <select class="form-control" id="level" name="level" ngModel>
+                  <option value="">--</option>
                   <option value="easy">Dễ</option>
                   <option value="medium">Trung bình</option>
                   <option value="hard">Khó</option>
@@ -27,36 +20,36 @@
               </div>
               <div class="form-group col-sm-4">
                 <label for="topic">Chủ đề</label>
-                <select class="form-control" id="topic" name="topic">
-                  <option value="none">--</option>
+                <select class="form-control" id="topic" name="topic" ngModel>
+                  <option value="">--</option>
                   <option *ngFor="let topic of topics" value="{{topic._id}}">{{topic.name}}</option>
                 </select>
               </div>
               <div class="form-group col-sm-4">
                 <label for="type">Loại câu hỏi</label>
-                <select class="form-control" id="type" name="type">
-                  <option value="none">--</option>
+                <select class="form-control" id="type" name="type" ngModel>
+                  <option value="">--</option>
                   <option value="text">Text</option>
                   <option value="image">Ảnh</option>
                 </select>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
-                  <label for="question-id">Mã câu hỏi</label>
-                  <input type="text" class="form-control" id="question-id" name ="question-id" placeholder="Nhập id câu hỏi">
+                  <label for="code">Mã câu hỏi</label>
+                  <input type="text" class="form-control" id="code" name ="code" placeholder="Nhập mã câu hỏi" ngModel>
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
                   <label for="answer">Đáp án</label>
-                  <input type="text" class="form-control" id="answer" name="answer" placeholder="Nhập đáp án">
+                  <input type="text" class="form-control" id="answer" name="answer" placeholder="Nhập đáp án" ngModel>
                 </div>
               </div>
               <div class="col-sm-6"></div>
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="content">Nội dung</label>
-                  <textarea id="content" name="content" rows="4" class="form-control" placeholder="Nội dung câu hỏi"></textarea>
+                  <textarea id="content" name="content" rows="4" class="form-control" placeholder="Nội dung câu hỏi" ngModel></textarea>
                 </div>
               </div>
               <div class="col-md-12">
@@ -68,7 +61,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div #tableQuestion class="row">
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">

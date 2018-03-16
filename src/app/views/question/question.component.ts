@@ -9,6 +9,7 @@ import {TopicsRenderComponent} from './renderTableRow/topics-render.component';
 import {Globals} from '../../app.constants';
 import {CreateModalComponent} from './action/create-modal/create-modal.component';
 import {EditModalComponent} from './action/edit-modal/edit-modal.component';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-question',
@@ -97,6 +98,7 @@ export class QuestionComponent implements OnInit {
   // reference to EditModalComponent to use child resource
   @ViewChild(EditModalComponent) editModalCmp: EditModalComponent;
   @ViewChild('createModal') createModal: any;
+  @ViewChild('tableQuestion') tableQuestion: any;
   @ViewChild('inputLevel') inputLevel: ElementRef;
   @ViewChild('inputTopic') inputTopic: ElementRef;
   @ViewChild('inputContent') inputContent: ElementRef;
@@ -143,7 +145,7 @@ export class QuestionComponent implements OnInit {
    * click event of search area
    * @param event
    */
-  onClickAdvanceSearch(event): void {
+  onClickAdvanceSearch(event: any): void {
     console.log(this.LOG_TAG + ' onClickAdvanceSearch');
     if (this.isHidden) {
       event.target.innerText = 'Thu gọn';
@@ -162,31 +164,28 @@ export class QuestionComponent implements OnInit {
     }
   }
 
-  onSubmitSearch(e): void {
+  onSubmitSearch(e: any, searchForm: NgForm): void {
     console.log(this.LOG_TAG + ' onSubmitSearch');
     e.preventDefault();
-    //console.log(event.target[4].value);
-    let inputLevel = e.target[0].value;
-    let inputTopic = e.target[1].value;
-    let inputType = e.target[2].value;
-    let inputCode = e.target[3].value.trim();
-    let inputAnswer = e.target[4].value.trim();
-    let inputContent = e.target[5].value.trim();
-    let checkFormValid = this.checkFormSearchValid(inputLevel, inputTopic, inputType, inputCode, inputAnswer, inputContent);
-
-    let queryObj = {
-      "level": inputLevel,
-      "topic": inputTopic,
-      "type": inputType,
-      "code": inputCode,
-      "answer": inputAnswer,
-      "content": inputContent,
-    };
+    console.log(searchForm);
+    let formResult = searchForm.value;
+    let checkFormValid = this.checkFormSearchValid(formResult.level, formResult.topic,
+                                                    formResult.type, formResult.code,
+                                                    formResult.answer, formResult.content);
 
     if (checkFormValid) {
+      let queryObj = {
+        "level": formResult.level,
+        "topic": formResult.topic,
+        "type": formResult.type,
+        "code": formResult.code,
+        "answer": formResult.answer,
+        "content": formResult.content,
+      };
       this.questionService.getQuestions(queryObj).subscribe(question => {
         this.questions = question;
         this.source.load(this.questions);
+        this.tableQuestion.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     } else {
       alert('Nhập thông tin để search');

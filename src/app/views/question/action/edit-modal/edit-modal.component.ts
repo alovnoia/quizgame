@@ -89,15 +89,16 @@ export class EditModalComponent implements OnInit {
    * @param e
    * @param {NgForm} createForm: contain form data
    */
-  onSubmitEdit(e: any, createForm: NgForm): void {
+  onSubmitEdit(e: any, editForm: NgForm): void {
     console.log(this.LOG_TAG, 'onSubmitEdit');
+    console.log(editForm);
     e.preventDefault();
-    let formResult = createForm.value;
+    let formResult = editForm.value;
     let data = new Question;
     let tmp;
     let answerFlag; // save right answer
-    createForm.value.image = this.imageName ? this.globals.PHOTO_DIR + this.imageName : '';
-    //console.log(createForm.value);
+    editForm.value.image = this.imageName ? this.globals.PHOTO_DIR + this.imageName : '';
+    //console.log(editForm.value);
 
     // if any field null, set it to old data to edit object
     data._id = this.oldData._id;
