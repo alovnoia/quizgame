@@ -1,0 +1,87 @@
+<div bsModal #createModal="bs-modal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Thêm gói câu hỏi</h4>
+        <button type="button" class="close" (click)="createModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form #createForm="ngForm" class="form-horizontal" (submit)="onSubmitCreate($event, createForm)">
+        <div class="modal-body modal-style">
+          <div class="form-group row">
+            <div class="col-sm-8">
+              <div class="form-group">
+                <label for="code">Mã <span class="required-feild">*</span></label>
+                <input #inputCode type="text" (focusout)="checkCode()"
+                       [(ngModel)]="inputCodeStr"
+                       class="form-control" id="code" name="code"
+                       placeholder="Nhập mã" required minlength="3" maxlength="15" #code="ngModel">
+                <div *ngIf="code.errors && (code.dirty || code.touched)" class="alert alert-danger">
+                  <div [hidden]="!code.errors.required">
+                    Mã câu hỏi không được bỏ trống!
+                  </div>
+                  <div [hidden]="!code.errors.minlength">
+                    Nhập ít nhất 3 ký tự!
+                  </div>
+                  <div [hidden]="!code.errors.maxlength">
+                    Nhập tối đa 15 ký tự
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="level">Độ khó <span class="required-feild">*</span></label>
+                <select #inputLevel class="form-control" ngModel id="level" (change)="changeCondition()" name="level" required #level="ngModel">
+                  <option value="easy">Dễ</option>
+                  <option value="medium">Trung bình</option>
+                  <option value="hard">Khó</option>
+                </select>
+                <div *ngIf="level.errors && level.touched" class="alert alert-danger">
+                  <div [hidden]="!level.errors.required">
+                    Độ khó không được bỏ trống!
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="selectedTopic">Chủ đề <span class="required-feild">*</span></label>
+                <select #inputTopic class="form-control" name="selectedTopic" (change)="changeCondition()" required #topic="ngModel" [(ngModel)]="selectedTopic">
+                  <option *ngFor="let topic of topics" [ngValue]="topic">
+                    {{topic.name}}
+                  </option>
+                </select>
+                <div *ngIf="topic.errors && topic.touched" class="alert alert-danger">
+                  <div [hidden]="!topic.errors.required">
+                    Chủ đề không được bỏ trống!
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="button" class="btn btn-primary" [disabled]="level.errors || topic.errors" (click)="generateQuestion()">
+              Lấy câu hỏi
+            </button>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <label>Câu hỏi <span class="required-feild">*</span></label>
+              <ul class="list-group" *ngIf="genQuestions">
+                <li class="list-group-item list-group-item-secondary" *ngFor="let question of genQuestions">{{question.content}}</li>
+              </ul>
+              <ul class="list-group" *ngIf="genQuestions.length < 1">
+                <li class="list-group-item list-group-item-danger">Chưa chọn câu hỏi nào!</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="createModal.hide()">Đóng</button>
+          <button type="submit" class="btn btn-primary"
+                  [disabled]="code.errors || level.errors || topic.errors || genQuestions.length < 1">
+            Thêm mới
+          </button>
+        </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

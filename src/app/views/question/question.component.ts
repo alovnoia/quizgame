@@ -188,14 +188,14 @@ export class QuestionComponent implements OnInit {
         this.tableQuestion.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     } else {
-      alert('Nhập thông tin để search');
+      alert('Nhập thông tin để tìm kiếm');
     }
   }
 
   checkFormSearchValid(inputLevel, inputTopic, inputType, inputQuestionId, inputAnswer, inputContent): boolean {
     let inputIsNotNull = false;
     for (let i = 0; i <= arguments.length; i++) {
-      if (arguments[i] && arguments[i] !== 'none') {
+      if (arguments[i]) {
         inputIsNotNull = true;
         break;
       }

@@ -17,6 +17,7 @@ export class Globals {
   public ADMIN_LOGIN = 'admin/';
   public TOPIC = 'topics/';
   public QUESTION = 'questions/';
+  public PACKAGE = 'packages/';
 
   //photo path
   public PHOTO_DIR = 'assets/img/myImage/';

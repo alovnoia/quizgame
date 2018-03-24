@@ -1,0 +1,161 @@
+.card-header a,
+.card-body .btn {
+  float: right;
+}
+
+.card-body {
+  padding-bottom: 0rem;
+}
+
+.visually-hidden {
+  display: none;
+}
+
+.show-card {
+  -webkit-animation: appear 0.3s;
+  -webkit-animation-fill-mode: forwards;
+  animation: appear 0.3s;
+  animation-fill-mode: forwards;
+}
+
+.hide-card {
+  -webkit-animation: disappear 0.3s;
+  -webkit-animation-fill-mode: forwards;
+  animation: disappear 0.3s;
+  animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes appear{
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes appear{
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes disappear{
+  100% {
+    -webkit-transform: translateY(-5%);
+    transform: translateY(-5%);
+  }
+}
+
+@keyframes disappear{
+  100% {
+    opacity: 0;
+    -webkit-transform: translateY(-5%);
+    transform: translateY(-5%);
+  }
+}
+
+#topic-list {
+  line-height: 150%;
+  margin: 0px;
+  padding: 0px;
+}
+
+ul {
+  > li {
+    > span {
+      color: red;
+    }
+  }
+}
+
+.answer-group {
+  padding-left: 0px;
+}
+
+input[type=radio] {
+  margin-top: 20%;
+}
+
+label {
+  font-weight: bold;
+}
+
+.modal-dialog{
+  overflow-y: initial !important
+}
+
+.modal-body{
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.preview:hover {
+  /*  transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+    -o-transform: scale(1.05);
+    -ms-transform: scale(1.05);*/
+  border: 3px solid #797979;
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+
+.preview:active {
+  /*  transform: scale(1.05);
+    -moz-transform: scale(0.95);
+    -webkit-transform: scale(0.95);
+    -o-transform: scale(0.95);
+    -ms-transform: scale(0.95);*/
+  border: 3px solid #797979;
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+
+.preview-container {
+  padding: 0px;
+  position: relative;
+}
+
+.preview {
+  position: relative;
+  background: #F0F0F0;
+  padding: 0px;
+}
+
+#add-image {
+  margin: 0;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  border-color: #F0F0F0;
+}
+
+.modal-style {
+  padding: 5%;
+}
+
+.delete-btn {
+  position: absolute;
+  right: -15px;
+  top: -15px;
+  z-index: 999;
+}
+
+#delete-button:hover {
+  transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -ms-transform: scale(1.1)
+}
+
+#delete-button:active {
+  transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  -ms-transform: scale(1.2)
+}
+
+.required-feild {
+  color: red;
+}

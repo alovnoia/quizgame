@@ -165,7 +165,7 @@ export class QuestionService {
    * @returns {Observable<Question[]>}
    */
   getQuestions(queryObj: Object): Observable<Question[]> {
-    return this.http.post<Question[]>(this.questionUrl + 'filter', queryObj, this.globals.httpOptions)
+    return this.http.post<Question[]>(this.questionUrl + 'search', queryObj, this.globals.httpOptions)
       .pipe(
         tap(questions => console.log(this.LOG_TAG + ` fetched questions `, questions)),
         catchError(this.handleError('getQuestions', []))
