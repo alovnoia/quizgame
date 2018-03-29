@@ -149,10 +149,10 @@ export class PackageComponent implements OnInit {
 
     if (checkFormValid) {
       let queryObj = {
-        "level": formResult.level,
-        "topic": formResult.topic,
-        "questionCode": formResult.questionCode,
-        "code": formResult.code,
+        "level": formResult.level.trim(),
+        "topic": formResult.topic.trim(),
+        "questionCode": formResult.questionCode.trim(),
+        "code": formResult.code.trim(),
         "usage": formResult.usage ? formResult.usage : -1,
         "usageCondition": formResult.usageCondition,
       };
@@ -171,8 +171,10 @@ export class PackageComponent implements OnInit {
     let inputIsNotNull = false;
     for (let i = 0; i <= arguments.length; i++) {
       if (arguments[i]) {
-        inputIsNotNull = true;
-        break;
+        if (arguments[i].trim()) {
+          inputIsNotNull = true;
+          break;
+        }
       }
     }
     if (usage && !usageCondition) {

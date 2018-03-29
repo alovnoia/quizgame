@@ -172,15 +172,14 @@ export class QuestionComponent implements OnInit {
     let checkFormValid = this.checkFormSearchValid(formResult.level, formResult.topic,
                                                     formResult.type, formResult.code,
                                                     formResult.answer, formResult.content);
-
     if (checkFormValid) {
       let queryObj = {
-        "level": formResult.level,
-        "topic": formResult.topic,
-        "type": formResult.type,
-        "code": formResult.code,
-        "answer": formResult.answer,
-        "content": formResult.content,
+        "level": formResult.level.trim(),
+        "topic": formResult.topic.trim(),
+        "type": formResult.type.trim(),
+        "code": formResult.code.trim(),
+        "answer": formResult.answer.trim(),
+        "content": formResult.content.trim(),
       };
       this.questionService.getQuestions(queryObj).subscribe(question => {
         this.questions = question;
@@ -196,8 +195,10 @@ export class QuestionComponent implements OnInit {
     let inputIsNotNull = false;
     for (let i = 0; i <= arguments.length; i++) {
       if (arguments[i]) {
-        inputIsNotNull = true;
-        break;
+        if (arguments[i].trim()) {
+          inputIsNotNull = true;
+          break;
+        }
       }
     }
     return inputIsNotNull;

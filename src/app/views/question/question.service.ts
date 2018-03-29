@@ -199,6 +199,14 @@ export class QuestionService {
       );
   }
 
+  getQuestionByList(list: string[]): Observable<any> {
+    return this.http.post<any>(this.questionUrl + 'find-by-list', {questionList: list}, this.globals.httpOptions)
+      .pipe(
+        tap(() => console.log(this.LOG_TAG + ` find question list`)),
+        catchError(this.handleError<any>('find question list'))
+      );
+  }
+
   /**
    * remove question from db
    * @param {string} idDelete

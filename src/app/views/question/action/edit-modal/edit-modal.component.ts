@@ -103,14 +103,14 @@ export class EditModalComponent implements OnInit {
     // if any field null, set it to old data to edit object
     data._id = this.oldData._id;
     data.image = this.imageName ? this.globals.PHOTO_DIR + this.imageName : '';
-    data.level = formResult.level ? formResult.level : this.oldData.level;
-    data.content = formResult.content ? formResult.content : this.oldData.content;
-    data.code = formResult.code ? formResult.code : this.oldData.code;
+    data.level = formResult.level.trim() ? formResult.level.trim() : this.oldData.level;
+    data.content = formResult.content.trim() ? formResult.content.trim() : this.oldData.content;
+    data.code = formResult.code.trim() ? formResult.code.trim() : this.oldData.code;
     if (formResult.topic.length > 0) {
       for (let topic of formResult.topic) {
         data.topic.push({
           "_id": topic._id,
-          "name": topic.name
+          "name": topic.name.trim()
         });
       }
     } else {
@@ -128,13 +128,13 @@ export class EditModalComponent implements OnInit {
       // if user dont fill any answer input, replace it with old data
       if (!tmp) {
         data.answers.push({
-          "content": this.oldData.answers[i].content,
+          "content": this.oldData.answers[i].content.trim(),
           "correct": answerFlag
         });
         continue;
       }
       data.answers.push({
-        "content": tmp,
+        "content": tmp.trim(),
         "correct": answerFlag
       });
     }

@@ -84,8 +84,8 @@ export class CreatePackageComponent implements OnInit {
     console.log(createForm.value);
     let data = createForm.value;
     let packageObj: Package = new Package({
-      code: data.code,
-      level: data.level,
+      code: data.code.trim(),
+      level: data.level.trim(),
       topic: {
         '_id': this.selectedTopic._id,
         'name': this.selectedTopic.name

@@ -11,6 +11,7 @@ export class Package {
     code: string
   }];
   public usage: number;
+  public deleted: boolean;
 
   constructor(obj) {
     this.code = obj.code,

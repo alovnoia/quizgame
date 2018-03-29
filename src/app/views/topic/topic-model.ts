@@ -3,6 +3,7 @@ export class Topic {
   public name: string;
   public desc: string;
   public status: boolean;
+  public deleted: boolean;
 
   constructor(id: string, name: string, desc: string, status: boolean) {
     this._id = id;

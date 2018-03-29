@@ -23,7 +23,7 @@
                 <li class="list-group-item">Chủ đề: <span class="font-weight-bold">{{package.topic}}</span></li>
                 <li class="list-group-item">Sử dụng: <span class="font-weight-bold">{{package.usage}}</span></li>
                 <li class="list-group-item active">Câu hỏi</li>
-                <li class="list-group-item list-group-item-secondary" *ngFor="let q of package.question">{{q._id}}</li>
+                <li class="list-group-item list-group-item-secondary" *ngFor="let q of package.question">{{q.content}}</li>
               </ul>
             </div>
           </div>

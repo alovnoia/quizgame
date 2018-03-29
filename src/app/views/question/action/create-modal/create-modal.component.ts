@@ -25,6 +25,8 @@ export class CreateModalComponent implements OnInit {
   radioOption: number;
   // declare event update table
   @Output() updateTable = new EventEmitter();
+  inputPattern: string;
+  codePattern: string;
   @ViewChild('createModal') createModal: any;
   @ViewChild('inputCode') inputCode: ElementRef;
   @ViewChild('inputLevel') inputLevel: ElementRef;
@@ -42,6 +44,8 @@ export class CreateModalComponent implements OnInit {
     this.imageName = '';
     this.inputCodeStr = '';
     this.radioOption = 0;
+    this.inputPattern = this.globals.AVOID_MULTIPLE_SPACE;
+    this.codePattern = this.globals.AVOID_SPACE;
   }
 
   ngOnInit() {}
@@ -111,10 +115,10 @@ export class CreateModalComponent implements OnInit {
     createForm.value.image = this.imageName ? this.globals.PHOTO_DIR + this.imageName : '';
     //console.log(createForm.value);
 
-    data.level = formResult.level;
+    data.level = formResult.level.trim();
     data.image = this.imageName ? this.globals.PHOTO_DIR + this.imageName : '';
-    data.content = formResult.content;
-    data.code = formResult.code;
+    data.content = formResult.content.trim();
+    data.code = formResult.code.trim();
     for (let topic of formResult.topic) {
       data.topic.push({
         "_id": topic._id,
@@ -131,7 +135,7 @@ export class CreateModalComponent implements OnInit {
         answerFlag = false;
       }
       data.answers.push({
-        "content": tmp,
+        "content": tmp.trim(),
         "correct": answerFlag
       });
     }
@@ -157,6 +161,7 @@ export class CreateModalComponent implements OnInit {
    */
   clearForm(): void {
     console.log(this.LOG_TAG, 'clearForm');
+    this.imageName = '';
     this.inputCode.nativeElement.value = '';
     this.inputLevel.nativeElement.value = '';
     this.inputTopic.nativeElement.value = [];

@@ -6,6 +6,7 @@ export class Question {
   public level: string;
   public topic: [object];
   public answers: { content: string, correct: boolean }[];
+  public deleted: boolean;
 
 
   constructor() {
