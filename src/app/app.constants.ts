@@ -4,6 +4,10 @@ import {HttpHeaders} from '@angular/common/http';
 @Injectable()
 export class Globals {
 
+  // Regex for validate input
+  public AVOID_SPACE = '^\\s';
+  public AVOID_MULTIPLE_SPACE: string = '^\\S*\\s';
+
   // check login status
   public KEY_LOGIN = 'isLoggedIn';
 
@@ -18,6 +22,7 @@ export class Globals {
   public TOPIC = 'topics/';
   public QUESTION = 'questions/';
   public PACKAGE = 'packages/';
+  public CHALLENGE = 'challenges/';
 
   //photo path
   public PHOTO_DIR = 'assets/img/myImage/';

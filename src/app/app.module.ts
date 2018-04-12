@@ -70,9 +70,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {Globals} from './app.constants';
 import {StorageServiceModule} from 'angular-webstorage-service';
 import { CommonModule } from '@angular/common';
-import {LoginComponent} from './views/pages/login.component';
-import {CreateModalComponent} from './views/question/action/create-modal/create-modal.component';
-import {ModalModule} from 'ngx-bootstrap/modal';
 
 @NgModule({
   imports: [

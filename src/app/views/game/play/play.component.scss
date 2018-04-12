@@ -1,0 +1,30 @@
+.info {
+  color: #20A8D8;
+  font-weight: bold;
+  font-size: 36px;
+}
+
+.image-small {
+  height: 70%;
+  width: 70%;
+  left: 0px;
+  right: 0px;
+  border: 1px solid #797979;
+  padding: 0px !important;
+}
+
+.center-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+button {
+  outline: none;
+}
+
+.question-content {
+  margin-bottom: 20px;
+}

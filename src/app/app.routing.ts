@@ -41,6 +41,18 @@ export const routes: Routes = [
         path: 'package',
         canActivate: [ AuthGuard ],
         loadChildren: './views/package/package.module#PackageModule'
+      },
+      {
+        path: 'game',
+        canActivate: [ AuthGuard ],
+        component: SimpleLayoutComponent,
+        children: [
+          {
+            path: '',
+            canActivate: [ AuthGuard ],
+            loadChildren: './views/game/game.module#GameModule'
+          }
+        ]
       }
     ]
   },

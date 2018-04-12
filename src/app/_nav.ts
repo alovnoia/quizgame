@@ -21,5 +21,10 @@ export const navigation = [
     name: 'Gói câu hỏi',
     url: '/package',
     icon: 'icon-folder-alt'
+  },
+  {
+    name: 'Game',
+    url: '/game',
+    icon: 'icon-game-controller'
   }
 ];
