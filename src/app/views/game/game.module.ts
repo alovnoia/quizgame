@@ -9,6 +9,7 @@ import {Globals} from '../../app.constants';
 import {GameService} from './game.service';
 import { PlayComponent } from './play/play.component';
 import {FormsModule} from '@angular/forms';
+import { GameResultComponent } from './game-result/game-result.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import {FormsModule} from '@angular/forms';
   ],
   declarations: [
     GameComponent,
-    PlayComponent
+    PlayComponent,
+    GameResultComponent
   ],
   providers: [ GameService, PackageService, QuestionService, TopicService, Globals ]
 })

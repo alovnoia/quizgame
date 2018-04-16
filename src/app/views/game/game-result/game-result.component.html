@@ -1,0 +1,48 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <h2 class="result">
+            <i class="fa fa-clock-o"></i>
+            {{playerResult.time | date:'mm:ss' }}
+          </h2>
+        </div>
+        <div class="col-md-6 offset-md-3">
+          <h2 class="result">
+            <i class="fa fa-bullseye"></i>
+            {{playerResult.points}}
+          </h2>
+        </div>
+        <div class="col-md-12"></div>
+        <div class="col-md-6 offset-md-3 history" *ngFor="let q of playerAnswer.package.questions">
+          <h2 class="question-content">
+            {{q.content}}
+          </h2>
+          <div class="question-image" *ngIf="q.image">
+            <img src="{{'../../../../' + q.image}}" class="img-thumbnail image-small"/>
+            <!--<img src="../../../../assets/img/myImage/default1.jpg" class="img-thumbnail image-small"/>-->
+          </div>
+          <div *ngIf="playerAnswer.gameType === 'challenge'">
+            <button type="button" *ngFor="let a of q.answers"
+                    class="btn btn-lg btn-block disabled"
+                    [ngClass]="{'btn-outline-primary': q.player1.choose !== a.content  && !a.correct,
+                              'btn-danger': q.player1.choose === a.content  && !a.correct,
+                              'btn-success': a.correct}">
+              {{a.content}}
+            </button>
+          </div>
+          <div *ngIf="playerAnswer.gameType === 'normal'">
+            <button type="button" *ngFor="let a of q.answers"
+                    class="btn btn-lg btn-block disabled"
+                    [ngClass]="{'btn-outline-primary': q.player2.choose !== a.content  && !a.correct,
+                              'btn-danger': q.player2.choose === a.content  && !a.correct,
+                              'btn-success': a.correct}">
+              {{a.content}}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

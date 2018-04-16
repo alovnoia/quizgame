@@ -23,6 +23,7 @@ export class Globals {
   public QUESTION = 'questions/';
   public PACKAGE = 'packages/';
   public CHALLENGE = 'challenges/';
+  public GAME = 'games/';
 
   //photo path
   public PHOTO_DIR = 'assets/img/myImage/';

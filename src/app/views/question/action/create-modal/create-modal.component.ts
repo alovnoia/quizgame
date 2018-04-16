@@ -78,10 +78,12 @@ export class CreateModalComponent implements OnInit {
    */
   selectImageListener(event): void {
     console.log(this.LOG_TAG, 'selectImageListener');
-/*    let reader = new FileReader();
+    let reader = new FileReader();
     reader.onload = (e: any) => {
-      //let src = e.target.result;
-    };*/
+      let src = e.target.result;
+      console.log(e.target.result);
+    };
+    console.log(reader.readAsDataURL(event.target.files[0]));
     //console.log(event.target.files[0].name);
     if (event.target.files[0]) {
       this.displayImage.nativeElement.src = this.globals.PHOTO_DIR + event.target.files[0].name;

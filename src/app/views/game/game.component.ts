@@ -15,6 +15,7 @@ import {Router} from '@angular/router';
 export class GameComponent implements OnInit {
 
   LOG_TAG: string = 'GameComponent';
+  // define game setting
   GAME_TYPE = {
     CHALLENGE: 'challenge',
     NORMAL: 'normal'
@@ -28,9 +29,9 @@ export class GameComponent implements OnInit {
   selectedTopicItem: Topic;
   selectedGameTypeItem: string;
   selectedLevel: string;
-  choosenTopic: Topic;
+  // use for UI
   isStartGame: boolean;
-  gameData: object;
+  gameData: any;
 
   constructor(
     private packageService: PackageService,
@@ -74,7 +75,11 @@ export class GameComponent implements OnInit {
     this.selectedLevel = level;
   }
 
+  /**
+   * get and save game data after setting game
+   */
   startGame(): void {
+    console.log(this.LOG_TAG + ' startGame');
     this.isStartGame = true;
     let obj = {
       idUser1: 'a',
@@ -82,8 +87,19 @@ export class GameComponent implements OnInit {
       topic: this.selectedTopicItem
     };
     if (this.selectedGameTypeItem == this.GAME_TYPE.CHALLENGE) {
+      //get game data
       this.gameService.createChallenge(obj).subscribe(result =>{
         this.gameData = result;
+        this.gameData.gameType = this.GAME_TYPE.CHALLENGE;
+        // save game data
+        this.gameService.changeGameData(result);
+        this.router.navigateByUrl('game/play');
+      });
+    } else if (this.selectedGameTypeItem == this.GAME_TYPE.NORMAL) {
+      this.gameService.findGame(obj).subscribe(result => {
+        this.gameData = result;
+        this.gameData.gameType = this.GAME_TYPE.NORMAL;
+        // save game data
         this.gameService.changeGameData(result);
         this.router.navigateByUrl('game/play');
       });

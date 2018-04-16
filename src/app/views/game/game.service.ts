@@ -6,21 +6,48 @@ import {catchError, tap} from 'rxjs/operators';
 import {Challenge} from './challenge-model';
 import {of} from 'rxjs/observable/of';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Game} from './game-model';
 
 @Injectable()
 export class GameService {
 
   private challengeUrl: string;
+  private gameUrl: string;
   LOG_TAG: string = 'challengeService';
-  private gameData = new BehaviorSubject<object>({});
+  // game data
+  private gameData = new BehaviorSubject<any>({});
   public currentGameData = this.gameData.asObservable();
+  // game result
+  private gameResult = new BehaviorSubject<any>({});
+  public sentResult = this.gameResult.asObservable();
 
   constructor(private http: HttpClient, private globals: Globals) {
     this.challengeUrl = this.globals.SERVER + this.globals.CHALLENGE;
+    this.gameUrl = this.globals.SERVER + this.globals.GAME;
   }
 
   changeGameData(data: object) {
     this.gameData.next(data);
+  }
+
+  setGameResult(result: object) {
+    this.gameResult.next(result);
+  }
+
+  findGame(obj: object): Observable<Game> {
+    return this.http.post<Game>(this.gameUrl + 'find', obj, this.globals.httpOptions)
+      .pipe(
+        tap(() => console.log(this.LOG_TAG + ` found a game`)),
+        catchError(this.handleError<Game>('findGame'))
+      );
+  }
+
+  createGame(obj: object): Observable<Game> {
+    return this.http.post<Game>(this.gameUrl, obj, this.globals.httpOptions)
+      .pipe(
+        tap(() => console.log(this.LOG_TAG + ` added a game`)),
+        catchError(this.handleError<Game>('addGame'))
+      );
   }
 
   /**
@@ -33,6 +60,14 @@ export class GameService {
       .pipe(
         tap(() => console.log(this.LOG_TAG + ` added a challenge`)),
         catchError(this.handleError<Challenge>('addChallenge'))
+      );
+  }
+
+  updateChallenge(obj: any): Observable<any> {
+    return this.http.put(this.challengeUrl + obj._id, obj, this.globals.httpOptions)
+      .pipe(
+        tap(q => console.log(this.LOG_TAG + ` updated challenge id=${obj._id}`)),
+        catchError(this.handleError<any>('updateChallenge'))
       );
   }
 

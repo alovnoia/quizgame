@@ -1,9 +1,8 @@
-export class Challenge {
+export class Game {
   public _id: string;
   public userId1: string;
+  public userId2: string;
   public packages: {};
-  public status: boolean;
-  public enable: boolean;
   public result: {};
   public gameType: string;
 }
