@@ -3,6 +3,7 @@ export class Question {
   public content: string;
   public code: string;
   public image: string;
+  public base64Image: string;
   public level: string;
   public topic: [object];
   public answers: { content: string, correct: boolean }[];

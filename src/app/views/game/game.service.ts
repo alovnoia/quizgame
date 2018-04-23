@@ -5,7 +5,6 @@ import {Observable} from 'rxjs/Observable';
 import {catchError, tap} from 'rxjs/operators';
 import {Challenge} from './challenge-model';
 import {of} from 'rxjs/observable/of';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Game} from './game-model';
 
 @Injectable()
@@ -15,23 +14,29 @@ export class GameService {
   private gameUrl: string;
   LOG_TAG: string = 'challengeService';
   // game data
-  private gameData = new BehaviorSubject<any>({});
-  public currentGameData = this.gameData.asObservable();
+  private gameData: any;
   // game result
-  private gameResult = new BehaviorSubject<any>({});
-  public sentResult = this.gameResult.asObservable();
+  private gameResult: any;
 
   constructor(private http: HttpClient, private globals: Globals) {
     this.challengeUrl = this.globals.SERVER + this.globals.CHALLENGE;
     this.gameUrl = this.globals.SERVER + this.globals.GAME;
   }
 
-  changeGameData(data: object) {
-    this.gameData.next(data);
+  setGameData(data: object): void {
+    this.gameData = data;
   }
 
-  setGameResult(result: object) {
-    this.gameResult.next(result);
+  getGameData(): any {
+    return this.gameData;
+  }
+
+  setGameResult(result: any): void {
+    this.gameResult = result;
+  }
+
+  getGameResult(): any {
+    return this.gameResult;
   }
 
   findGame(obj: object): Observable<Game> {
@@ -57,6 +62,14 @@ export class GameService {
    */
   createChallenge(obj: object): Observable<Challenge> {
     return this.http.post<Challenge>(this.challengeUrl, obj, this.globals.httpOptions)
+      .pipe(
+        tap(() => console.log(this.LOG_TAG + ` added a challenge`)),
+        catchError(this.handleError<Challenge>('addChallenge'))
+      );
+  }
+
+  saveChallenge(obj: object): Observable<Challenge> {
+    return this.http.post<Challenge>(this.challengeUrl + 'save', obj, this.globals.httpOptions)
       .pipe(
         tap(() => console.log(this.LOG_TAG + ` added a challenge`)),
         catchError(this.handleError<Challenge>('addChallenge'))

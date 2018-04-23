@@ -70,6 +70,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {Globals} from './app.constants';
 import {StorageServiceModule} from 'angular-webstorage-service';
 import { CommonModule } from '@angular/common';
+import { SafeImagePipe } from './pipe/safe-image.pipe';
 
 @NgModule({
   imports: [

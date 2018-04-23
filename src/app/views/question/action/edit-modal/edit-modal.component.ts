@@ -19,10 +19,10 @@ export class EditModalComponent implements OnInit {
   @Input('photo') photo: any;
   // use for multiple option to set default selected topics to edit form
   selectedTopics: any;
+  // save base64 image string
+  base64Image: string;
   // name of image file
   imageName: string;
-  // use for check question code
-  inputCodeStr: string;
   // save option of radio, default is 0 (first answer)
   radioOption: number;
   // old data before edit in form
@@ -30,7 +30,6 @@ export class EditModalComponent implements OnInit {
   // declare event update table
   @Output() updateTable = new EventEmitter();
   @ViewChild('editModal') editModal: any;
-  @ViewChild('inputCode') inputCode: ElementRef;
   @ViewChild('inputLevel') inputLevel: ElementRef;
   @ViewChild('inputTopic') inputTopic: ElementRef;
   @ViewChild('inputContent') inputContent: ElementRef;
@@ -44,7 +43,6 @@ export class EditModalComponent implements OnInit {
 
   constructor(private questionService: QuestionService, private topicService: TopicService, private globals: Globals) {
     this.imageName = '';
-    this.inputCodeStr = '';
     this.radioOption = 0;
   }
 
@@ -66,10 +64,16 @@ export class EditModalComponent implements OnInit {
     console.log(this.LOG_TAG, 'onOpenModal');
     //console.log(e.data);
     this.oldData = e.data;
-    this.inputCode.nativeElement.value = this.oldData.code;
+    if (this.oldData.image) {
+      this.questionService.getImage({image: this.oldData.image}).subscribe(res => {
+        this.displayImage.nativeElement.src = res.base64Image;
+        this.base64Image = res.base64Image;
+      });
+    } else {
+      this.displayImage.nativeElement.src = this.photo.default;
+    }
     this.inputLevel.nativeElement.value = this.oldData.level;
     this.selectedTopics = this.oldData.topic;
-    this.displayImage.nativeElement.src = this.oldData.image ? this.oldData.image : this.photo.default;
     this.inputContent.nativeElement.value = this.oldData.content;
     this.inputAnswer1.nativeElement.value = this.oldData.answers[0].content;
     this.inputAnswer2.nativeElement.value = this.oldData.answers[1].content;
@@ -102,10 +106,11 @@ export class EditModalComponent implements OnInit {
 
     // if any field null, set it to old data to edit object
     data._id = this.oldData._id;
-    data.image = this.imageName ? this.globals.PHOTO_DIR + this.imageName : '';
+    data.image = this.imageName ? this.imageName : '';
+    data.base64Image = this.base64Image ? this.base64Image.split(',')[1] : '';
     data.level = formResult.level.trim() ? formResult.level.trim() : this.oldData.level;
     data.content = formResult.content.trim() ? formResult.content.trim() : this.oldData.content;
-    data.code = formResult.code.trim() ? formResult.code.trim() : this.oldData.code;
+    data.code = this.oldData.code;
     if (formResult.topic.length > 0) {
       for (let topic of formResult.topic) {
         data.topic.push({
@@ -159,16 +164,15 @@ export class EditModalComponent implements OnInit {
    */
   selectImageListener(event): void {
     console.log(this.LOG_TAG, 'selectImageListener');
-/*    let reader = new FileReader();
+    let reader = new FileReader();
     reader.onload = (e: any) => {
-      let src = e.target.result;
-      //this.displayImage.nativeElement.src = src;
-      console.log(e.target.files[0].name);
-    };*/
-    //console.log(event.target.files[0].name);
+      this.base64Image = e.target.result;
+      this.displayImage.nativeElement.src = this.base64Image;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+    //console.log(this.base64Image);
     if (event.target.files[0]) {
-      this.displayImage.nativeElement.src = this.globals.PHOTO_DIR + event.target.files[0].name;
-      this.imageName = event.target.files[0].name;
+      this.imageName = this.oldData.image ? this.oldData.image : this.oldData.code.trim() + '_' + Date.now() + '.png';
     }
   }
 
@@ -180,6 +184,7 @@ export class EditModalComponent implements OnInit {
     console.log(this.LOG_TAG, 'onDeleteImage');
     this.displayImage.nativeElement.src = this.photo.default;
     this.imageName = '';
+    this.base64Image = '';
   }
 
   /**
@@ -191,21 +196,4 @@ export class EditModalComponent implements OnInit {
   compareTopic(topic1: Topic, topic2: Topic): boolean {
     return topic1 && topic2 ? topic1._id === topic2._id : topic1 === topic2;
   }
-
-  /**
-   * check question code before create
-   * @param e
-   */
-  checkCode(e): void {
-    console.log(this.LOG_TAG, 'checkCode');
-    if (this.inputCodeStr) {
-      this.questionService.checkCode(this.inputCodeStr).subscribe(res => {
-        if (!res.result) {
-          alert('Mã đã được sử dụng. Hãy nhập mã khác!');
-          this.inputCodeStr = '';
-        }
-      });
-    }
-  }
-
 }

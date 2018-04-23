@@ -3,6 +3,8 @@ import {RouterModule, Routes} from '@angular/router';
 import {GameComponent} from './game.component';
 import {PlayComponent} from './play/play.component';
 import {GameResultComponent} from './game-result/game-result.component';
+import {PlayGuard, ResultGuard} from './game.guard';
+
 
 const routes: Routes = [
   {
@@ -20,6 +22,7 @@ const routes: Routes = [
     children: [
       {
         path: 'play',
+        canActivate: [PlayGuard],
         component: PlayComponent,
         data: {
           title: 'Play game'
@@ -27,6 +30,7 @@ const routes: Routes = [
       },
       {
         path: 'result',
+        canActivate: [ResultGuard],
         component: GameResultComponent,
         data: {
           title: 'Game result'

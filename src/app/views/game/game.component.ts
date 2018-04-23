@@ -92,7 +92,7 @@ export class GameComponent implements OnInit {
         this.gameData = result;
         this.gameData.gameType = this.GAME_TYPE.CHALLENGE;
         // save game data
-        this.gameService.changeGameData(result);
+        this.gameService.setGameData(result);
         this.router.navigateByUrl('game/play');
       });
     } else if (this.selectedGameTypeItem == this.GAME_TYPE.NORMAL) {
@@ -100,7 +100,7 @@ export class GameComponent implements OnInit {
         this.gameData = result;
         this.gameData.gameType = this.GAME_TYPE.NORMAL;
         // save game data
-        this.gameService.changeGameData(result);
+        this.gameService.setGameData(result);
         this.router.navigateByUrl('game/play');
       });
     }

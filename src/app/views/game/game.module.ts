@@ -10,6 +10,8 @@ import {GameService} from './game.service';
 import { PlayComponent } from './play/play.component';
 import {FormsModule} from '@angular/forms';
 import { GameResultComponent } from './game-result/game-result.component';
+import {SafeImagePipe} from '../../pipe/safe-image.pipe';
+import {PlayGuard, ResultGuard} from './game.guard';
 
 @NgModule({
   imports: [
@@ -20,8 +22,9 @@ import { GameResultComponent } from './game-result/game-result.component';
   declarations: [
     GameComponent,
     PlayComponent,
-    GameResultComponent
+    GameResultComponent,
+    SafeImagePipe
   ],
-  providers: [ GameService, PackageService, QuestionService, TopicService, Globals ]
+  providers: [ GameService, PackageService, QuestionService, TopicService, Globals, PlayGuard, ResultGuard ]
 })
 export class GameModule { }

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GameService} from '../game.service';
 import {Router} from '@angular/router';
 
@@ -34,24 +34,23 @@ export class PlayComponent implements OnInit {
     this.result = {
       points: 0,
       time: 0
-    }
+    };
   }
 
   ngOnInit() {
+
     window.scrollTo(0, 0);
     // get result sent from setting
-    this.gameService.currentGameData.subscribe(data => {
-      this.gameData = data;
-      // get 1st question to display
-      this.getCurrentQuestion(this.currentIndex);
-      //console.log(this.currentQuestion);
-    });
-    console.log(this.gameData);
+    this.gameData = this.gameService.getGameData();
+    // get 1st question to display
+    this.getCurrentQuestion(this.currentIndex);
+    console.log(this.gameData.package.questions);
     this.startCountTime();
   }
 
   ngOnDestroy() {
     clearInterval(this.timeInterval);
+    this.gameService.setGameData(undefined);
   }
 
   /**
@@ -60,17 +59,18 @@ export class PlayComponent implements OnInit {
    */
   getCurrentQuestion(index: number): void {
     console.log(this.LOG_TAG, 'getCurrentQuestion');
-    // check if current question is not last question
-    console.log(this.LOG_TAG, index);
-    console.log(this.LOG_TAG, this.gameData.package.questions.length);
-    if (index < this.gameData.package.questions.length) {
-      this.currentQuestion = {
-        content: this.gameData.package.questions[index].content,
-        image: this.gameData.package.questions[index].image,
-        answers: this.gameData.package.questions[index].answers,
-      };
-    } else {
-      this.gameOver();
+    console.log(this.gameData.package.questions);
+    if (this.gameData.package) {
+      // check if current question is not last question
+      if (index < this.gameData.package.questions.length) {
+        this.currentQuestion = {
+          content: this.gameData.package.questions[index].content,
+          image: this.gameData.package.questions[index].base64Image,
+          answers: this.gameData.package.questions[index].answers,
+        };
+      } else {
+        this.gameOver();
+      }
     }
   }
 
@@ -79,6 +79,7 @@ export class PlayComponent implements OnInit {
    */
   gameOver(): void {
     console.log(this.LOG_TAG, 'gameOver');
+    console.log(this.gameData.package.questions);
     clearInterval(this.timeInterval);
     this.result.time = this.countTime;
     if (this.gameData.gameType === this.GAME_TYPE.CHALLENGE) {
@@ -109,6 +110,7 @@ export class PlayComponent implements OnInit {
       }
       this.gameData.result.winner = winner;
     }
+    console.log('======');
     this.gameService.setGameResult(this.gameData);
     this.router.navigateByUrl('game/result');
   }
@@ -129,6 +131,7 @@ export class PlayComponent implements OnInit {
    */
   onChooseAnswer(a: any): void {
     console.log(this.LOG_TAG, 'onChooseAnswer');
+    console.log(this.gameData.package.questions);
     let userResult = false;
     if (a.correct) {
       this.result.points += 1;

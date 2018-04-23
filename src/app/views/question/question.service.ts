@@ -172,6 +172,14 @@ export class QuestionService {
       );
   }
 
+  getImage(queryObj: any): Observable<any> {
+    return this.http.post<any>(this.questionUrl + 'image', queryObj, this.globals.httpOptions)
+      .pipe(
+        tap(questions => console.log(this.LOG_TAG + ` fetched image `)),
+        catchError(this.handleError('getImage', []))
+      );
+  }
+
   /**
    * add question to db
    * @param {Question} questionObj

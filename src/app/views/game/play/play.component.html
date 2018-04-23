@@ -16,8 +16,8 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
           <h2 class="question-content">{{currentQuestion.content}}</h2>
-          <div class="center-image" *ngIf="currentQuestion.image">
-            <img src="{{'../../../../' + currentQuestion.image}}" class="img-thumbnail image-small"/>
+          <div class="center-image" *ngIf="gameData.package.questions[currentIndex].image">
+            <img [src]="currentQuestion.image | safeImage" class="img-thumbnail image-small"/>
             <!--<img src="../../../../assets/img/myImage/default1.jpg" class="img-thumbnail image-small"/>-->
           </div>
           <button type="button" *ngFor="let a of currentQuestion.answers"

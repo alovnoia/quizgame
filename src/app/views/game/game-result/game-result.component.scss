@@ -9,6 +9,13 @@
 
 .question-image {
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.image-small {
+  width: 70%;
+  height: 70%;
 }
 
 button {

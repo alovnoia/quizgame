@@ -4,7 +4,6 @@ import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 import {Globals} from '../../app.constants';
 import {of} from 'rxjs/observable/of';
-import {SESSION_STORAGE, WebStorageService} from 'angular-webstorage-service';
 
 @Injectable()
 export class LoginService {
@@ -12,16 +11,20 @@ export class LoginService {
   private username : string;
   private loginAdminUrl: string;
 
-  constructor(private http: HttpClient, private globals: Globals, @Inject(SESSION_STORAGE) private storage: WebStorageService) {
+  constructor(private http: HttpClient, private globals: Globals) {
     this.loginAdminUrl = globals.SERVER + globals.ADMIN_LOGIN;
   }
 
   setUserLoggedIn(): void {
-    this.storage.set(this.globals.KEY_LOGIN, true);
+    localStorage.setItem(this.globals.KEY_LOGIN, '1');
   }
 
-  getUserLoggedIn(): boolean {
-    return this.storage.get(this.globals.KEY_LOGIN);
+  getUserLoggedIn(): string {
+    return localStorage.getItem(this.globals.KEY_LOGIN);
+  }
+
+  deleteUserLoggedIn(): void {
+    localStorage.removeItem(this.globals.KEY_LOGIN);
   }
 
   /**

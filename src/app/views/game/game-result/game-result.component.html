@@ -20,7 +20,7 @@
             {{q.content}}
           </h2>
           <div class="question-image" *ngIf="q.image">
-            <img src="{{'../../../../' + q.image}}" class="img-thumbnail image-small"/>
+            <img [src]="q.base64Image|safeImage" class="img-thumbnail image-small"/>
             <!--<img src="../../../../assets/img/myImage/default1.jpg" class="img-thumbnail image-small"/>-->
           </div>
           <div *ngIf="playerAnswer.gameType === 'challenge'">

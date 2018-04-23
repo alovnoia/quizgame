@@ -27,6 +27,8 @@ export class CreateModalComponent implements OnInit {
   @Output() updateTable = new EventEmitter();
   inputPattern: string;
   codePattern: string;
+  //save data base64 image
+  base64Image: string;
   @ViewChild('createModal') createModal: any;
   @ViewChild('inputCode') inputCode: ElementRef;
   @ViewChild('inputLevel') inputLevel: ElementRef;
@@ -80,13 +82,14 @@ export class CreateModalComponent implements OnInit {
     console.log(this.LOG_TAG, 'selectImageListener');
     let reader = new FileReader();
     reader.onload = (e: any) => {
-      let src = e.target.result;
-      console.log(e.target.result);
+      //let src = e.target.result;
+      this.base64Image = e.target.result;
+      this.displayImage.nativeElement.src = this.base64Image;
+      //console.log(this.base64Image);
     };
-    console.log(reader.readAsDataURL(event.target.files[0]));
+    reader.readAsDataURL(event.target.files[0]);
     //console.log(event.target.files[0].name);
     if (event.target.files[0]) {
-      this.displayImage.nativeElement.src = this.globals.PHOTO_DIR + event.target.files[0].name;
       this.imageName = event.target.files[0].name;
     }
   }
@@ -99,6 +102,7 @@ export class CreateModalComponent implements OnInit {
     console.log(this.LOG_TAG, 'onDeleteImage');
     this.displayImage.nativeElement.src = this.photo.default;
     this.imageName = '';
+    this.base64Image = '';
   }
 
   /**
@@ -118,7 +122,8 @@ export class CreateModalComponent implements OnInit {
     //console.log(createForm.value);
 
     data.level = formResult.level.trim();
-    data.image = this.imageName ? this.globals.PHOTO_DIR + this.imageName : '';
+    data.image = this.imageName ? formResult.code.trim() + '_' + Date.now() + '.png' : '';
+    data.base64Image = this.imageName ? this.base64Image : '';
     data.content = formResult.content.trim();
     data.code = formResult.code.trim();
     for (let topic of formResult.topic) {
@@ -164,6 +169,7 @@ export class CreateModalComponent implements OnInit {
   clearForm(): void {
     console.log(this.LOG_TAG, 'clearForm');
     this.imageName = '';
+    this.base64Image = '';
     this.inputCode.nativeElement.value = '';
     this.inputLevel.nativeElement.value = '';
     this.inputTopic.nativeElement.value = [];

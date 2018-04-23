@@ -8,8 +8,10 @@ import {GameService} from '../game.service';
 })
 export class GameResultComponent implements OnInit {
 
+  LOG_TAG: string = 'GameResultComponent';
   playerResult: any;
   playerAnswer: any;
+  saveData: any;
   GAME_TYPE = {
     CHALLENGE: 'challenge',
     NORMAL: 'normal'
@@ -18,22 +20,27 @@ export class GameResultComponent implements OnInit {
   constructor(private gameService: GameService) { }
 
   ngOnInit() {
-    this.gameService.sentResult.subscribe(res => {
-      this.playerAnswer = res;
-      if (res.gameType === this.GAME_TYPE.CHALLENGE) {
-        this.playerResult = res.result.player1;
-      } else if (res.gameType === this.GAME_TYPE.NORMAL) {
-        this.playerResult = res.result.player2;
-      }
-      console.log(this.playerResult);
-    });
+    this.playerAnswer = this.gameService.getGameResult();
+    this.saveData = this.gameService.getGameResult();
+    if (this.playerAnswer.gameType === this.GAME_TYPE.CHALLENGE) {
+      this.playerResult = this.playerAnswer.result.player1;
+    } else if (this.playerAnswer.gameType === this.GAME_TYPE.NORMAL) {
+      this.playerResult = this.playerAnswer.result.player2;
+    }
+    //console.log(this.gameService.getGameResult());
     if (this.playerAnswer.package.questions.length > 0) {
       if (this.playerAnswer.gameType === this.GAME_TYPE.CHALLENGE) {
-        this.gameService.updateChallenge(this.playerAnswer).subscribe();
+        console.log(this.playerAnswer);
+        this.gameService.saveChallenge(this.playerAnswer).subscribe();
       } else if (this.playerAnswer.gameType === this.GAME_TYPE.NORMAL) {
-        this.gameService.createGame(this.playerAnswer).subscribe();
+        this.gameService.createGame(this.saveData).subscribe();
       }
     }
+  }
+
+  ngOnDestroy() {
+    console.log(this.LOG_TAG, 'ngOnDestroy');
+    this.gameService.setGameResult(undefined);
   }
 
 }
