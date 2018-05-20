@@ -18,7 +18,7 @@ export class LoginComponent {
   ngOnInit() {
     console.log('onInit LoginComponent');
     if (this.loginService.getUserLoggedIn()) {
-      this.router.navigateByUrl('dashboard');
+      this.router.navigateByUrl('topic');
     }
   }
 
@@ -39,7 +39,7 @@ export class LoginComponent {
       if (data.count === 1) {
         console.log('Login success');
         this.loginService.setUserLoggedIn();
-        this.router.navigateByUrl('dashboard');
+        this.router.navigateByUrl('topic');
         this.wrongInfo = null;
       } else {
         console.log('Login failed, wrong info');

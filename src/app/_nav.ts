@@ -3,22 +3,17 @@ export const navigation = [
     divider: true
   },
   {
-    name: 'Dashboard',
-    url: '/dashboard',
-    icon: 'icon-speedometer'
-  },
-  {
-    name: 'Chủ đề',
+    name: 'Topics',
     url: '/topic',
     icon: 'icon-book-open'
   },
   {
-    name: 'Câu hỏi',
+    name: 'Questions',
     url: '/question',
     icon: 'icon-question'
   },
   {
-    name: 'Gói câu hỏi',
+    name: 'Packages',
     url: '/package',
     icon: 'icon-folder-alt'
   },

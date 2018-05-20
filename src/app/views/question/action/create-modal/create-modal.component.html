@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Thêm câu hỏi</h4>
+        <h4 class="modal-title">Add question</h4>
         <button type="button" class="close" (click)="createModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -12,38 +12,38 @@
           <div class="form-group row">
             <div class="col-sm-6">
               <div class="form-group">
-                <label for="code">Mã <span class="required-feild">*</span></label>
+                <label for="code">Code <span class="required-feild">*</span></label>
                 <input #inputCode type="text" (focusout)="checkCode($event)"
                        [(ngModel)]="inputCodeStr"
                        class="form-control" id="code" name="code"
-                       placeholder="Nhập mã" required minlength="3" maxlength="15" #code="ngModel">
+                       placeholder="Input code" required minlength="3" maxlength="15" #code="ngModel">
                 <div *ngIf="code.errors && (code.dirty || code.touched)" class="alert alert-danger">
                   <div [hidden]="!code.errors.required">
-                    Mã câu hỏi không được bỏ trống!
+                    Code can not empty!
                   </div>
                   <div [hidden]="!code.errors.minlength">
-                    Nhập ít nhất 3 ký tự!
+                    Input at least 3 characters!
                   </div>
                   <div [hidden]="!code.errors.maxlength">
-                    Nhập tối đa 15 ký tự
+                    Cannot input more than 15 characters!
                   </div>
                 </div>
               </div>
               <div class="form-group">
-                <label for="level">Độ khó <span class="required-feild">*</span></label>
+                <label for="level">Level <span class="required-feild">*</span></label>
                 <select #inputLevel class="form-control" ngModel id="level" name="level" required #level="ngModel">
-                  <option value="easy">Dễ</option>
-                  <option value="medium">Trung bình</option>
-                  <option value="hard">Khó</option>
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
                 </select>
                 <div *ngIf="level.errors && level.touched" class="alert alert-danger">
                   <div [hidden]="!level.errors.required">
-                    Độ khó không được bỏ trống!
+                    Level cannot empty!
                   </div>
                 </div>
               </div>
               <div class="form-group">
-                <label for="topic">Chủ đề <span class="required-feild">*</span></label>
+                <label for="topic">Topic <span class="required-feild">*</span></label>
                 <select #inputTopic class="form-control" [compareWith]="compareTopic" name="topic" multiple [(ngModel)]="selectedTopics" required #topic="ngModel">
                   <option *ngFor="let topic of topics" [ngValue]="topic">
                     {{topic.name}}
@@ -51,7 +51,7 @@
                 </select>
                 <div *ngIf="topic.errors && topic.touched" class="alert alert-danger">
                   <div [hidden]="!topic.errors.required">
-                    Chủ đề không được bỏ trống!
+                    Topics cannot empty!
                   </div>
                 </div>
               </div>
@@ -65,40 +65,40 @@
             </div>
             <div class="col-md-12">
               <div class="form-group">
-                <label for="content">Nội dung <span class="required-feild">*</span></label>
+                <label for="content">Content <span class="required-feild">*</span></label>
                 <textarea #inputContent id="content"
                           name="content" rows="4" class="form-control"
-                          ngModel placeholder="Nội dung câu hỏi" required #content="ngModel"
+                          ngModel placeholder="Question content" required #content="ngModel"
                           minlength="10" maxlength="150">
 
                 </textarea>
                 <div *ngIf="content.errors && (content.dirty || content.touched)" class="alert alert-danger">
                   <div [hidden]="!content.errors.required">
-                    Nội dung câu hỏi không được bỏ trống!
+                    Content cannot empty!
                   </div>
                   <div [hidden]="!content.errors.minlength">
-                    Nhập ít nhất 10 ký tự!
+                    Input at least 10 characters!
                   </div>
                   <div [hidden]="!content.errors.maxlength">
-                    Nhập tối đa 150 ký tự
+                    Cannot input more than 150 characters!
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-sm-8">
               <div class="form-group">
-                <label for="answer">Đáp án <span class="required-feild">*</span></label>
+                <label for="answer">Answers <span class="required-feild">*</span></label>
                 <div class="row">
                   <div class="col-sm-10">
                     <input #inputAnswer1 type="text" class="form-control"
-                           id="answer" name="answer0" ngModel placeholder="Nhập đáp án" required
+                           id="answer" name="answer0" ngModel placeholder="Input answer" required
                            maxlength="20" #answer1="ngModel">
                     <div *ngIf="answer1.errors && (answer1.dirty || answer1.touched)" class="alert alert-danger">
                       <div [hidden]="!answer1.errors.required">
-                        Đáp án trên không được bỏ trống!
+                        This field cannot empty!
                       </div>
                       <div [hidden]="!answer1.errors.maxlength">
-                        Nhập tối đa 20 ký tự
+                        Cannot input more than 20 characters!
                       </div>
                     </div>
                   </div>
@@ -111,14 +111,14 @@
                 <div class="row">
                   <div class="col-sm-10">
                     <input #inputAnswer2 type="text" class="form-control" id="answer"
-                           name="answer1" ngModel placeholder="Nhập đáp án" required
+                           name="answer1" ngModel placeholder="Input answer" required
                            maxlength="20" #answer2="ngModel">
                     <div *ngIf="answer2.errors && (answer2.dirty || answer2.touched)" class="alert alert-danger">
                       <div [hidden]="!answer2.errors.required">
-                        Đáp án trên không được bỏ trống!
+                        This field cannot empty!
                       </div>
                       <div [hidden]="!answer2.errors.maxlength">
-                        Nhập tối đa 20 ký tự
+                        Cannot input more than 20 characters!
                       </div>
                     </div>
                   </div>
@@ -131,14 +131,14 @@
                 <div class="row">
                   <div class="col-sm-10">
                     <input #inputAnswer3 type="text" class="form-control" id="answer"
-                           name="answer2" ngModel placeholder="Nhập đáp án" required
+                           name="answer2" ngModel placeholder="Input answer" required
                            maxlength="20" #answer3="ngModel">
                     <div *ngIf="answer3.errors && (answer3.dirty || answer3.touched)" class="alert alert-danger">
                       <div [hidden]="!answer3.errors.required">
-                        Đáp án trên không được bỏ trống!
+                        This field cannot empty!
                       </div>
                       <div [hidden]="!answer3.errors.maxlength">
-                        Nhập tối đa 20 ký tự
+                        Cannot input more than 20 characters!
                       </div>
                     </div>
                   </div>
@@ -151,14 +151,14 @@
                 <div class="row">
                   <div class="col-sm-10">
                     <input #inputAnswer4 type="text" class="form-control" id="answer"
-                           name="answer3" ngModel placeholder="Nhập đáp án" required
+                           name="answer3" ngModel placeholder="Input answer" required
                            maxlength="20" #answer4="ngModel">
                     <div *ngIf="answer4.errors && (answer4.dirty || answer4.touched)" class="alert alert-danger">
                       <div [hidden]="!answer4.errors.required">
-                        Đáp án trên không được bỏ trống!
+                        This field cannot empty!
                       </div>
                       <div [hidden]="!answer4.errors.maxlength">
-                        Nhập tối đa 20 ký tự
+                        Cannot input more than 20 characters!
                       </div>
                     </div>
                   </div>
@@ -171,11 +171,11 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="createModal.hide()">Đóng</button>
+          <button type="button" class="btn btn-secondary" (click)="createModal.hide()">Close</button>
           <button type="submit" class="btn btn-primary"
                   [disabled]="code.errors || level.errors || topic.errors || content.errors ||
                               answer1.errors || answer2.errors || answer3.errors || answer4.errors">
-            Thêm mới
+            Save
           </button>
         </div>
       </form>

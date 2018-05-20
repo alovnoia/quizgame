@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-4">
       <ul class="list-group">
-        <li class="list-group-item active">Chọn chủ đề</li>
+        <li class="list-group-item active">Choose topic</li>
         <li class="list-group-item list-group-item-action"
             *ngFor="let topic of topics"
             [ngClass]="{'list-group-item-success': selectedTopicItem === topic}"
@@ -13,7 +13,7 @@
     </div>
     <div class="col-lg-4">
       <ul class="list-group">
-        <li class="list-group-item active">Chọn độ khó</li>
+        <li class="list-group-item active">Choose level</li>
         <li class="list-group-item list-group-item-action"
             [ngClass]="{'list-group-item-success': selectedLevel === GAME_LEVEL.EASY}"
             (click)="chooseLevel($event, GAME_LEVEL.EASY)">
@@ -33,7 +33,7 @@
     </div>
     <div class="col-lg-4">
       <ul class="list-group">
-        <li class="list-group-item active">Chọn kiểu chơi</li>
+        <li class="list-group-item active">Choose game type</li>
         <li class="list-group-item list-group-item-action"
             [ngClass]="{'list-group-item-success': selectedGameTypeItem === GAME_TYPE.CHALLENGE}"
             (click)="chooseGameType($event, GAME_TYPE.CHALLENGE)">
@@ -53,7 +53,7 @@
       <button class="btn btn-lg btn-success btn-block"
               [disabled]="!selectedGameTypeItem || !selectedTopicItem || !selectedLevel"
               (click)="startGame()">
-        Bắt đầu
+        Start game
       </button>
     </div>
   </div>

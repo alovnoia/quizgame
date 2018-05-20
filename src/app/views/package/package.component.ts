@@ -35,26 +35,26 @@ export class PackageComponent implements OnInit {
     },
     columns: {
       code: {
-        title: 'Mã',
+        title: 'Code',
         type: 'html'
       },
       level: {
-        title: 'Độ khó',
+        title: 'Level',
         type: 'html'
       },
       topic: {
-        title: 'Chủ đề',
+        title: 'Topic',
         type: 'custom',
         renderComponent: RenderTopicComponent
       },
       usage: {
-        title: 'Thống kê',
+        title: 'Usage',
         type: 'html'
       }
     },
     add: {
       inputClass: '',
-      addButtonContent: '<i class="icon-plus btn btn-success btn-sm"> Thêm</i>',
+      addButtonContent: '<i class="icon-plus btn btn-success btn-sm"> Add</i>',
       createButtonContent: 'Save',
       cancelButtonContent: 'Cancel',
       confirmCreate: false,
@@ -70,7 +70,7 @@ export class PackageComponent implements OnInit {
       deleteButtonContent: '<i class="icon-trash btn btn-danger btn-sm"></i>',
       confirmDelete: true,
     },
-    noDataMessage: 'Dữ liệu rỗng',
+    noDataMessage: 'Empty data',
     pager: {
       display: true,
       perPage: 10,
@@ -123,14 +123,14 @@ export class PackageComponent implements OnInit {
   onClickAdvanceSearch(event: any): void {
     console.log(this.LOG_TAG + ' onClickAdvanceSearch');
     if (this.isHidden) {
-      event.target.innerText = 'Thu gọn';
+      event.target.innerText = 'Small';
       this.isVisuallyHidden = false;
       setTimeout( () =>  {
         this.isShow = true;
         this.isHidden = false;
       }, 50);
     } else {
-      event.target.innerText = 'Mở rộng';
+      event.target.innerText = 'Expand';
       this.isShow = false;
       this.isHidden = true;
       setTimeout( () =>  {
@@ -163,7 +163,7 @@ export class PackageComponent implements OnInit {
         this.tablePackages.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     } else {
-      alert('Nhập thông tin để tìm kiếm');
+      alert('Please input something!');
     }
   }
 
@@ -171,13 +171,13 @@ export class PackageComponent implements OnInit {
     let inputIsNotNull = false;
     for (let i = 0; i <= arguments.length; i++) {
       if (arguments[i]) {
-        if (arguments[i].trim()) {
+        if (arguments[i]) {
           inputIsNotNull = true;
           break;
         }
       }
     }
-    if (usage && !usageCondition) {
+    if ((usage && !usageCondition) || (!usage && usageCondition)) {
       inputIsNotNull = false;
     }
     return inputIsNotNull;
@@ -186,7 +186,7 @@ export class PackageComponent implements OnInit {
   onDeletePackage(e): void {
     console.log(this.LOG_TAG + ' onDeletePackage');
     //console.log(e.index);
-    if (window.confirm('Bạn có chắc muốn xóa gói câu hỏi này?')) {
+    if (window.confirm('Are you sure?')) {
       this.packageService.deletePackage(e.data._id).subscribe();
       this.packages.splice(e.index, 1);
       this.source.load(this.packages);

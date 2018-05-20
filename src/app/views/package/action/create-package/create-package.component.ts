@@ -49,7 +49,7 @@ export class CreatePackageComponent implements OnInit {
     if (this.inputCodeStr) {
       this.packageService.checkCode(this.inputCodeStr).subscribe(res => {
         if (!res.result) {
-          alert('Mã đã được sử dụng. Hãy nhập mã khác!');
+          alert('Illegal code. Please try again!');
           this.inputCodeStr = '';
         }
       });

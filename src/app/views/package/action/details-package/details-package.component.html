@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Chi tiết gói câu hỏi</h4>
+        <h4 class="modal-title">Package details</h4>
         <button type="button" class="close" (click)="detailsModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -17,19 +17,19 @@
           <div class="row">
             <div class="col-12">
               <ul class="list-group" *ngIf="question">
-                <li class="list-group-item active">Thông tin chung</li>
-                <li class="list-group-item">Mã: <span class="font-weight-bold">{{package.code}}</span></li>
-                <li class="list-group-item" [innerHTML]="'Độ khó: ' + package.level"></li>
-                <li class="list-group-item">Chủ đề: <span class="font-weight-bold">{{package.topic}}</span></li>
-                <li class="list-group-item">Sử dụng: <span class="font-weight-bold">{{package.usage}}</span></li>
-                <li class="list-group-item active">Câu hỏi</li>
+                <li class="list-group-item active">Infomation</li>
+                <li class="list-group-item">Code: <span class="font-weight-bold">{{package.code}}</span></li>
+                <li class="list-group-item" [innerHTML]="'Level: ' + package.level"></li>
+                <li class="list-group-item">Topic: <span class="font-weight-bold">{{package.topic}}</span></li>
+                <li class="list-group-item">Usage: <span class="font-weight-bold">{{package.usage}}</span></li>
+                <li class="list-group-item active">Questions</li>
                 <li class="list-group-item list-group-item-secondary" *ngFor="let q of package.question">{{q.content}}</li>
               </ul>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" (click)="detailsModal.hide()">Đóng</button>
+          <button type="button" class="btn btn-secondary" (click)="detailsModal.hide()">Close</button>
         </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

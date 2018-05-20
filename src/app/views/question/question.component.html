@@ -3,57 +3,57 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-header">
-          Thông tin tìm kiếm
-          <a href="javascript:;" (click)="onClickAdvanceSearch($event)">Thu gọn</a>
+          Search info
+          <a href="javascript:;" (click)="onClickAdvanceSearch($event)">Small</a>
         </div>
         <div class="card-body" [ngClass]="{'hide-card': isHidden, 'visually-hidden': isVisuallyHidden, 'show-card': isShow}">
           <form #searchForm="ngForm" class="form-horizontal" (submit)="onSubmitSearch($event, searchForm)">
             <div class="form-group row">
               <div class="form-group col-sm-4">
-                <label for="level">Độ khó</label>
+                <label for="level">Level</label>
                 <select class="form-control" id="level" name="level" ngModel>
                   <option value="">--</option>
-                  <option value="easy">Dễ</option>
-                  <option value="medium">Trung bình</option>
-                  <option value="hard">Khó</option>
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
                 </select>
               </div>
               <div class="form-group col-sm-4">
-                <label for="topic">Chủ đề</label>
+                <label for="topic">Topic</label>
                 <select class="form-control" id="topic" name="topic" ngModel>
                   <option value="">--</option>
                   <option *ngFor="let topic of topics" value="{{topic._id}}">{{topic.name}}</option>
                 </select>
               </div>
               <div class="form-group col-sm-4">
-                <label for="type">Loại câu hỏi</label>
+                <label for="type">Question type</label>
                 <select class="form-control" id="type" name="type" ngModel>
                   <option value="">--</option>
                   <option value="text">Text</option>
-                  <option value="image">Ảnh</option>
+                  <option value="image">Image</option>
                 </select>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
-                  <label for="code">Mã câu hỏi</label>
-                  <input type="text" class="form-control" id="code" name ="code" placeholder="Nhập mã câu hỏi" ngModel>
+                  <label for="code">Question code</label>
+                  <input type="text" class="form-control" id="code" name ="code" placeholder="Input question code" ngModel>
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
-                  <label for="answer">Đáp án</label>
-                  <input type="text" class="form-control" id="answer" name="answer" placeholder="Nhập đáp án" ngModel>
+                  <label for="answer">Answer</label>
+                  <input type="text" class="form-control" id="answer" name="answer" placeholder="Input answer" ngModel>
                 </div>
               </div>
               <div class="col-sm-6"></div>
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="content">Nội dung</label>
-                  <textarea id="content" name="content" rows="4" class="form-control" placeholder="Nội dung câu hỏi" ngModel></textarea>
+                  <label for="content">Content</label>
+                  <textarea id="content" name="content" rows="4" class="form-control" placeholder="Input content" ngModel></textarea>
                 </div>
               </div>
               <div class="col-md-12">
-                <button type="submit" class="btn btn-md btn-success"><i class="fa fa-search"></i> Tìm kiếm</button>
+                <button type="submit" class="btn btn-md btn-success"><i class="fa fa-search"></i> Find</button>
               </div>
             </div>
           </form>

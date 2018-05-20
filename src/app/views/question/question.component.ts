@@ -35,31 +35,31 @@ export class QuestionComponent implements OnInit {
     },
     columns: {
       code: {
-        title: 'Mã',
+        title: 'Code',
         type: 'html'
       },
       content: {
-        title: 'Nội dung',
+        title: 'Content',
         type: 'html'
       },
       answers: {
-        title: 'Đáp án',
+        title: 'Answers',
         type: 'custom',
         renderComponent: AnswersRenderComponent
       },
       level: {
-        title: 'Độ khó',
+        title: 'Level',
         type: 'html'
       },
       topic: {
-        title: 'Chủ đề',
+        title: 'Topics',
         type: 'custom',
         renderComponent: TopicsRenderComponent
       }
     },
     add: {
       inputClass: '',
-      addButtonContent: '<i class="icon-plus btn btn-success btn-sm"> Thêm</i>',
+      addButtonContent: '<i class="icon-plus btn btn-success btn-sm"> Add</i>',
       createButtonContent: 'Save',
       cancelButtonContent: 'Cancel',
       confirmCreate: false,
@@ -75,7 +75,7 @@ export class QuestionComponent implements OnInit {
       deleteButtonContent: '<i class="icon-trash btn btn-danger btn-sm"></i>',
       confirmDelete: true,
     },
-    noDataMessage: 'Dữ liệu rỗng',
+    noDataMessage: 'Empty data',
     pager: {
       display: true,
       perPage: 10,
@@ -148,14 +148,14 @@ export class QuestionComponent implements OnInit {
   onClickAdvanceSearch(event: any): void {
     console.log(this.LOG_TAG + ' onClickAdvanceSearch');
     if (this.isHidden) {
-      event.target.innerText = 'Thu gọn';
+      event.target.innerText = 'Small';
       this.isVisuallyHidden = false;
       setTimeout( () =>  {
         this.isShow = true;
         this.isHidden = false;
       }, 50);
     } else {
-      event.target.innerText = 'Mở rộng';
+      event.target.innerText = 'Expand';
       this.isShow = false;
       this.isHidden = true;
       setTimeout( () =>  {
@@ -187,7 +187,7 @@ export class QuestionComponent implements OnInit {
         this.tableQuestion.nativeElement.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     } else {
-      alert('Nhập thông tin để tìm kiếm');
+      alert('Please input something!');
     }
   }
 
@@ -218,7 +218,7 @@ export class QuestionComponent implements OnInit {
   onDeleteQuestion(event): void {
     console.log(this.LOG_TAG + ' onDeleteQuestion');
     //console.log(event);
-    if (window.confirm('Bạn có chắc muốn xóa câu hỏi này?')) {
+    if (window.confirm('Are you sure?')) {
       this.questionService.deleteQuestion(event.data._id).subscribe();
       this.questions.splice(event.index, 1);
       this.source.load(this.questions);

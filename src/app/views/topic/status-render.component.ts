@@ -19,11 +19,11 @@ export class StatusRenderComponent implements ViewCell, OnInit {
   ngOnInit() {
     //console.log('Render status data');
     if (this.value) {
-      this.renderValue = 'Đang sử dụng';
+      this.renderValue = 'Using';
       this.isSuccess = true;
       this.isDanger = false;
     } else {
-      this.renderValue = 'Đã ẩn';
+      this.renderValue = 'Disable';
       this.isSuccess = false;
       this.isDanger = true;
     }

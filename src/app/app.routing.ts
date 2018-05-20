@@ -12,7 +12,7 @@ export const routes: Routes = [
   {
     path: '',
     canActivate: [ AuthGuard ],
-    redirectTo: 'dashboard',
+    redirectTo: 'topic',
     pathMatch: 'full',
   },
   {
@@ -22,11 +22,6 @@ export const routes: Routes = [
       title: 'Home'
     },
     children: [
-      {
-        path: 'dashboard',
-        canActivate: [ AuthGuard ],
-        loadChildren: './views/dashboard/dashboard.module#DashboardModule'
-      },
       {
         path: 'topic',
         canActivate: [ AuthGuard ],

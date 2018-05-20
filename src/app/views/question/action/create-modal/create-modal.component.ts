@@ -5,6 +5,7 @@ import {QuestionService} from '../../question.service';
 import {Globals} from '../../../../app.constants';
 import {Question} from '../../question-model';
 import {NgForm} from '@angular/forms';
+import {BsModalRef, ModalDirective, ModalModule} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-create-modal',
@@ -64,6 +65,7 @@ export class CreateModalComponent implements OnInit {
   onOpenModal(e): void {
     this.clearForm();
     this.createModal.show();
+    this.createModal.scrollTop = 0;
   }
 
   /**
@@ -191,7 +193,7 @@ export class CreateModalComponent implements OnInit {
     if (this.inputCodeStr) {
       this.questionService.checkCode(this.inputCodeStr).subscribe(res => {
         if (!res.result) {
-          alert('Mã đã được sử dụng. Hãy nhập mã khác!');
+          alert('Illegal code. Please try again!!');
           this.inputCodeStr = '';
         }
       });

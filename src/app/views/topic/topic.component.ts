@@ -28,15 +28,15 @@ export class TopicComponent implements OnInit {
     },
     columns: {
       name: {
-        title: 'Tên',
+        title: 'Name',
         type: 'html',
       },
       desc: {
-        title: 'Mô tả',
+        title: 'Description',
         type: 'html'
       },
       status: {
-        title: 'Trạng thái',
+        title: 'Status',
         type: 'custom',
         renderComponent: StatusRenderComponent,
         defaultValue: false,
@@ -46,10 +46,10 @@ export class TopicComponent implements OnInit {
         filter: {
           type: 'list',
           config: {
-            selectText: 'Trạng thái',
+            selectText: 'Status',
             list: [
-              { value: true, title: 'Đang sử dụng' },
-              { value: false, title: 'Đã ẩn' }
+              { value: true, title: 'Using' },
+              { value: false, title: 'Disable' }
             ],
           },
         }
@@ -57,7 +57,7 @@ export class TopicComponent implements OnInit {
     },
     add: {
       inputClass: '',
-      addButtonContent: '<i class="icon-plus btn btn-success btn-sm"> Thêm</i>',
+      addButtonContent: '<i class="icon-plus btn btn-success btn-sm"> Add</i>',
       createButtonContent: 'Save',
       cancelButtonContent: 'Cancel',
       confirmCreate: true,
@@ -73,7 +73,7 @@ export class TopicComponent implements OnInit {
       deleteButtonContent: '<i class="icon-trash btn btn-danger btn-sm"></i>',
       confirmDelete: true,
     },
-    noDataMessage: 'Dữ liệu rỗng',
+    noDataMessage: 'Empty data',
     pager: {
       display: true,
       perPage: 10,
@@ -114,7 +114,7 @@ export class TopicComponent implements OnInit {
    */
   onDeleteTopicConfirm(event) {
     console.log(this.LOG_TAG + ' delete topic');
-    if (window.confirm('Bạn có chắc muốn xóa topic này?')) {
+    if (window.confirm('Are you sure?')) {
       event.confirm.resolve();
       //this.deleteTopic(event.data.id);
       this.topicService.deleteTopic(event.data._id).subscribe();
@@ -135,7 +135,8 @@ export class TopicComponent implements OnInit {
     let obj = event.newData;
     let topicObj = {name: obj.name.trim(), desc: obj.desc.trim(), status: obj.status !== '' ? obj.status : false};
     if (obj.name.trim() === '' || obj.desc.trim() === '') {
-      window.alert('Hãy nhập đủ thông tin!');
+      window.alert('Please input all field!');
+      window.alert('Please input all field!');
       console.log(this.LOG_TAG + ' Create failed');
     } else {
       event.confirm.resolve();

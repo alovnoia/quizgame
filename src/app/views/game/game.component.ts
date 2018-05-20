@@ -82,7 +82,7 @@ export class GameComponent implements OnInit {
     console.log(this.LOG_TAG + ' startGame');
     this.isStartGame = true;
     let obj = {
-      idUser1: 'a',
+      idUser1: 'dttung195@gmail.com',
       level: this.selectedLevel,
       topic: this.selectedTopicItem
     };
